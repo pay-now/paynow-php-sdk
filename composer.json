@@ -1,0 +1,37 @@
+{
+  "name": "pay-now/php-sdk",
+  "description": "A PHP client library for accessing Paynow API",
+  "keywords": [
+    "paynow",
+    "mbank",
+    "payment processing",
+    "api"
+  ],
+  "type": "library",
+  "homepage": "https://www.paynow.pl",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "mBank S.A.",
+      "email": "kontakt@paynow.pl"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.1",
+    "monolog/monolog": "^1.24",
+    "guzzlehttp/guzzle": "^5.3",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.4",
+    "phpunit/phpunit": "^7.5",
+    "friendsofphp/php-cs-fixer": "^2.15",
+    "phpunit/php-code-coverage": "^6.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Paynow\\": "src/Paynow/"
+    }
+  }
+}
