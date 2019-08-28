@@ -1,5 +1,5 @@
 {
-  "name": "pay-now/php-sdk",
+  "name": "pay-now/paynow-php-sdk",
   "description": "A PHP client library for accessing Paynow API",
   "keywords": [
     "paynow",
