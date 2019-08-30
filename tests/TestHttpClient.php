@@ -13,12 +13,14 @@ class TestHttpClient extends HttpClient
     {
         $content = null;
         if ($responseFile != null) {
-            $content = file_get_contents($responseFile, true);
+            $filePath = dirname(__FILE__) . '/resources/' . $responseFile;
+            $content = file_get_contents($filePath, true);
         }
 
         $mock = new Mock([
             new Response($httpStatus, ['Content-Type' => 'application/json'], Stream::factory($content))
         ]);
+
         $this->client->getEmitter()->attach($mock);
     }
 }

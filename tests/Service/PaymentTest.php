@@ -10,10 +10,10 @@ class PaymentTest extends TestCase
     public function testShouldAuthorizePaymentSuccessfully()
     {
         // given
-        $this->testHttpClient->mockResponse('tests/resources/payment_success.json', 200);
+        $this->testHttpClient->mockResponse('payment_success.json', 200);
         $this->client->setHttpClient($this->testHttpClient);
         $paymentService = new Payment($this->client);
-        $paymentData = json_decode(file_get_contents('tests/resources/payment_request.json'), true);
+        $paymentData = $this->loadData('payment_request.json');
 
         // when
         $response = $paymentService->authorize($paymentData);
@@ -27,10 +27,10 @@ class PaymentTest extends TestCase
     public function testShouldNotAuthorizePaymentSuccessfully()
     {
         // given
-        $this->testHttpClient->mockResponse('tests/resources/payment_failed.json', 400);
+        $this->testHttpClient->mockResponse('payment_failed.json', 400);
         $this->client->setHttpClient($this->testHttpClient);
 
-        $paymentData = json_decode(file_get_contents('tests/resources/payment_request.json'), true);
+        $paymentData = $this->loadData('payment_request.json');
         $paymentService = new Payment($this->client);
 
         // when
@@ -50,7 +50,7 @@ class PaymentTest extends TestCase
     public function testShouldRetrievePaymentStatusSuccessfully()
     {
         // given
-        $this->testHttpClient->mockResponse('tests/resources/payment_status.json', 200);
+        $this->testHttpClient->mockResponse('payment_status.json', 200);
         $this->client->setHttpClient($this->testHttpClient);
         $paymentService = new Payment($this->client);
         $paymentId = 'PBYV-3AZ-UPW-DPC';
@@ -66,7 +66,7 @@ class PaymentTest extends TestCase
     public function testShouldNotRetrievePaymentStatusSuccesfully()
     {
         // given
-        $this->testHttpClient->mockResponse('tests/resources/payment_status_not_found.json', 404);
+        $this->testHttpClient->mockResponse('payment_status_not_found.json', 404);
         $this->client->setHttpClient($this->testHttpClient);
         $paymentService = new Payment($this->client);
         $paymentId = 'PBYV-3AZ-UPW-DPC';
