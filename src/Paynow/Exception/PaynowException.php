@@ -4,6 +4,11 @@ namespace Paynow\Exception;
 
 use Exception;
 
+/**
+ * Class PaynowException
+ *
+ * @package Paynow\Exception
+ */
 class PaynowException extends Exception
 {
     private $errors;

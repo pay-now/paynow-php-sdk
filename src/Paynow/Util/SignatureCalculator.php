@@ -4,6 +4,11 @@ namespace Paynow\Util;
 
 use InvalidArgumentException;
 
+/**
+ * Class SignatureCalculator
+ *
+ * @package Paynow\Util
+ */
 class SignatureCalculator
 {
     /**

@@ -30,13 +30,13 @@ class HttpClient implements HttpClientInterface
         $this->client = new Client(
             [
                 'base_url' => $this->config->getUrl(),
-                'timeout' => 30.0,
+                'timeout' => 10.0,
                 'defaults' => [
                     'headers' => [
                         'Api-Key' => $this->config->getApiKey(),
                         'User-Agent' => $this->config->getApplicationName() ?: Configuration::USER_AGENT,
                         'Accept' => 'application/json',
-                        'Content-Type' => 'application/json',
+                        'Content-Type' => 'application/json'
                     ]
                 ]
             ]
@@ -45,20 +45,14 @@ class HttpClient implements HttpClientInterface
 
     /**
      * @param $url
-     * @param $data
+     * @param array $data
      * @param null $idempotencyKey
      * @return ApiResponse
      * @throws HttpClientException
-     * @throws \Paynow\Exception\ConfigurationException
      */
-    public function post($url, $data, $idempotencyKey = null)
+    public function post($url, array $data, $idempotencyKey = null)
     {
-        $options = [
-            'json' => $data,
-            'headers' => [
-                'Signature' => (string)new SignatureCalculator($this->config->getSignatureKey(), $data)
-            ]
-        ];
+        $options = $this->defaultOptions($data);
 
         if ($idempotencyKey) {
             $options['headers']['Idempotency-Key'] = $idempotencyKey;
@@ -77,22 +71,14 @@ class HttpClient implements HttpClientInterface
 
     /**
      * @param $url
-     * @param $data
+     * @param array $data
      * @return ApiResponse
      * @throws HttpClientException
-     * @throws \Paynow\Exception\ConfigurationException
      */
-    public function patch($url, $data)
+    public function patch($url, array $data)
     {
-        $options = [
-            'json' => $data,
-            'headers' => [
-                'Signature' => (string)new SignatureCalculator($this->config->getSignatureKey(), $data)
-            ]
-        ];
-
         try {
-            return new ApiResponse($this->client->patch($url, $options));
+            return new ApiResponse($this->client->patch($url, $this->defaultOptions($data)));
         } catch (RequestException $e) {
             throw new HttpClientException(
                 "Error occurred during processing request",
@@ -118,5 +104,19 @@ class HttpClient implements HttpClientInterface
                 $e->getResponse()->getBody()->getContents()
             );
         }
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function defaultOptions(array $data)
+    {
+        return [
+            'json' => $data,
+            'headers' => [
+                'Signature' => (string)new SignatureCalculator($this->config->getSignatureKey(), $data)
+            ]
+        ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Paynow;
 
-use GuzzleHttp\ClientInterface;
 use Paynow\HttpClient\HttpClientInterface;
 
 class Client
@@ -11,6 +10,13 @@ class Client
 
     private $httpClient;
 
+    /**
+     * Client constructor.
+     *
+     * @param $apiKey
+     * @param $apiSignatureKey
+     * @param $environment
+     */
     public function __construct($apiKey, $apiSignatureKey, $environment)
     {
         $this->configuration = new Configuration();
@@ -20,21 +26,33 @@ class Client
         $this->httpClient = new HttpClient\HttpClient($this->configuration);
     }
 
-    public function getConfiguration(): Configuration
+    /**
+     * @return Configuration
+     */
+    public function getConfiguration()
     {
         return $this->configuration;
     }
 
+    /**
+     * @param $applicationName
+     */
     public function setApplicationName($applicationName)
     {
         $this->configuration->setApplicationName($applicationName);
     }
 
+    /**
+     * @param HttpClientInterface $httpClient
+     */
     public function setHttpClient(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
     }
 
+    /**
+     * @return HttpClient\HttpClient
+     */
     public function getHttpClient()
     {
         return $this->httpClient;

@@ -19,6 +19,7 @@ class TestCase extends BaseTestCase
             'TestSignatureKey',
             Environment::SANDBOX
         );
+        $this->client->setApplicationName('PHPUnitTests');
         $this->testHttpClient = new TestHttpClient($this->client->getConfiguration());
     }
 

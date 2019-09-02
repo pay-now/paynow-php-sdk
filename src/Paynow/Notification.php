@@ -7,8 +7,21 @@ use Paynow\Exception\SignatureVerificationException;
 use Paynow\Util\SignatureCalculator;
 use UnexpectedValueException;
 
+/**
+ * Class Notification
+ *
+ * @package Paynow
+ */
 class Notification
 {
+    /**
+     * Notification constructor
+     *
+     * @param $signatureKey
+     * @param $payload
+     * @param $headers
+     * @throws SignatureVerificationException
+     */
     public function __construct($signatureKey, $payload, $headers)
     {
         if (!$payload) {
@@ -23,6 +36,8 @@ class Notification
     }
 
     /**
+     * Parse payload
+     *
      * @param $payload
      * @return mixed
      */
@@ -39,11 +54,12 @@ class Notification
     }
 
     /**
+     * Verify payload Signature
+     *
      * @param $signatureKey
      * @param $data
      * @param array $headers
      * @return bool
-     * @throws Exception\ConfigurationException
      * @throws SignatureVerificationException
      */
     private function verify($signatureKey, $data, array $headers)
@@ -57,8 +73,11 @@ class Notification
     }
 
     /**
+     * Retrieve Signature from payload
+     *
      * @param array $headers
-     * @return string
+     * @return mixed
+     * @throws SignatureVerificationException
      */
     private function getPayloadSignature(array $headers)
     {
