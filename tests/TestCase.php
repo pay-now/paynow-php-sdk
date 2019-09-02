@@ -1,7 +1,9 @@
 <?php
 
-namespace Paynow;
+namespace Paynow\Tests;
 
+use Paynow\Client;
+use Paynow\Environment;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase

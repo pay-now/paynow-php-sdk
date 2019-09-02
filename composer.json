@@ -31,7 +31,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Paynow\\": "src/Paynow/"
+      "Paynow\\": "src/Paynow/",
+      "Paynow\\Tests\\": "tests"
     }
   }
 }

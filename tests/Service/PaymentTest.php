@@ -1,9 +1,10 @@
 <?php
 
-namespace Paynow\Service;
+namespace Paynow\Tests\Service;
 
 use Paynow\Exception\PaynowException;
-use Paynow\TestCase;
+use Paynow\Service\Payment;
+use Paynow\Tests\TestCase;
 
 class PaymentTest extends TestCase
 {
