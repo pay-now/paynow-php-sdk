@@ -37,14 +37,6 @@ class Client
     }
 
     /**
-     * @param $applicationName
-     */
-    public function setApplicationName($applicationName)
-    {
-        $this->configuration->setApplicationName($applicationName);
-    }
-
-    /**
      * @param HttpClientInterface $httpClient
      */
     public function setHttpClient(HttpClientInterface $httpClient)
