@@ -1,6 +1,8 @@
 <?php
 
-namespace Paynow;
+namespace Paynow\Tests;
+
+use Paynow\Notification;
 
 class NotificationTest extends TestCase
 {

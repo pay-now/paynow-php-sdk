@@ -2,6 +2,11 @@
 
 namespace Paynow;
 
+/**
+ * Class Configuration
+ *
+ * @package Paynow
+ */
 class Configuration implements ConfigurationInterface
 {
     const API_VERSION = "v1";

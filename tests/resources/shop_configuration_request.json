@@ -1,0 +1,4 @@
+{
+  "continue_url": "http://shopdomain.com/return",
+  "notification_url": "http://shopdomain.com/notifications"
+}

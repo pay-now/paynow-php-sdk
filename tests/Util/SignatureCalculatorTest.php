@@ -1,8 +1,9 @@
 <?php
 
-namespace Paynow\Util;
+namespace Paynow\Tests\Util;
 
-use Paynow\TestCase;
+use Paynow\Tests\TestCase;
+use Paynow\Util\SignatureCalculator;
 
 class SignatureCalculatorTest extends TestCase
 {

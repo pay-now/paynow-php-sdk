@@ -1,7 +1,9 @@
 <?php
 
-namespace Paynow;
+namespace Paynow\Tests;
 
+use Paynow\Client;
+use Paynow\Environment;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -17,6 +19,7 @@ class TestCase extends BaseTestCase
             'TestSignatureKey',
             Environment::SANDBOX
         );
+        $this->client->setApplicationName('PHPUnitTests');
         $this->testHttpClient = new TestHttpClient($this->client->getConfiguration());
     }
 

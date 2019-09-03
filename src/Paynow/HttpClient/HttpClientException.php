@@ -2,7 +2,14 @@
 
 namespace Paynow\HttpClient;
 
-class HttpClientException extends \Exception
+use Exception;
+
+/**
+ * Class HttpClientException
+ *
+ * @package Paynow\HttpClient
+ */
+class HttpClientException extends Exception
 {
     /**
      * @var string
@@ -19,6 +26,12 @@ class HttpClientException extends \Exception
      */
     private $status;
 
+    /**
+     * HttpClientException constructor.
+     * @param $message
+     * @param $status
+     * @param $body
+     */
     public function __construct($message, $status, $body)
     {
         parent::__construct($message);
@@ -26,17 +39,24 @@ class HttpClientException extends \Exception
         $this->body = $body;
     }
 
+    /**
+     * @return string
+     */
     public function getBody()
     {
         return $this->body;
     }
 
+    /**
+     * @return int
+     */
     public function getStatus()
     {
         return $this->status;
     }
 
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->errors;
     }
 }

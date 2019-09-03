@@ -3,8 +3,14 @@
 namespace Paynow\Service;
 
 use Paynow\Client;
+use Paynow\Environment;
 use Paynow\Exception\ConfigurationException;
 
+/**
+ * Class Service
+ *
+ * @package Paynow\Service
+ */
 class Service
 {
     /**
@@ -21,7 +27,7 @@ class Service
     public function __construct(Client $client)
     {
         if (!$client->getConfiguration()->getEnvironment()) {
-            $message = "Client doesn't have a correct environment, use " . Environment::PRODUCTION . ' or ' . Environment::SANDBOX;
+            $message = "Provide correct environment, use " . Environment::PRODUCTION . ' or ' . Environment::SANDBOX;
             throw new ConfigurationException($message);
         }
 

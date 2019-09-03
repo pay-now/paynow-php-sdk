@@ -1,8 +1,12 @@
 <?php
 
-
 namespace Paynow;
 
+/**
+ * Interface ConfigurationInterface
+ *
+ * @package Paynow
+ */
 interface ConfigurationInterface
 {
     public function getApiKey();
