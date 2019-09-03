@@ -34,13 +34,24 @@ class HttpClient implements HttpClientInterface
                 'defaults' => [
                     'headers' => [
                         'Api-Key' => $this->config->getApiKey(),
-                        'User-Agent' => $this->config->getApplicationName() ?: Configuration::USER_AGENT,
+                        'User-Agent' => $this->getUserAgent(),
                         'Accept' => 'application/json',
                         'Content-Type' => 'application/json'
                     ]
                 ]
             ]
         );
+    }
+
+    /**
+     * @return string
+     */
+    private function getUserAgent()
+    {
+        if ($this->config->getApplicationName()) {
+            return $this->config->getApplicationName() . ' (' . Configuration::USER_AGENT . ')';
+        }
+        return Configuration::USER_AGENT;
     }
 
     /**
