@@ -17,9 +17,9 @@ class TestCase extends BaseTestCase
         $this->client = new Client(
             'TestApiKey',
             'TestSignatureKey',
-            Environment::SANDBOX
+            Environment::SANDBOX,
+            'PHPUnitTests'
         );
-        $this->client->setApplicationName('PHPUnitTests');
         $this->testHttpClient = new TestHttpClient($this->client->getConfiguration());
     }
 
