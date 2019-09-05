@@ -3,7 +3,6 @@
 namespace Paynow\Service;
 
 use Paynow\Configuration;
-use Paynow\Exception\ConfigurationException;
 use Paynow\Exception\PaynowException;
 use Paynow\HttpClient\ApiResponse;
 use Paynow\HttpClient\HttpClientException;
@@ -16,17 +15,21 @@ use Paynow\HttpClient\HttpClientException;
 class ShopConfiguration extends Service
 {
     /**
-     * @param array $data
+     * @param string $continueUrl
+     * @param string $notificationUrl
      * @return ApiResponse
      * @throws PaynowException
-     * @throws ConfigurationException
      */
-    public function changeUrls(array $data)
+    public function changeUrls($continueUrl, $notificationUrl)
     {
+        $data = [
+            'continueUrl' => $continueUrl,
+            'notificationUrl' => $notificationUrl
+        ];
         try {
             return $this->getClient()
                 ->getHttpClient()
-                ->patch(Configuration::API_VERSION . '/configuration/shop', $data);
+                ->patch(Configuration::API_VERSION . '/configuration/shop/urls', $data);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
