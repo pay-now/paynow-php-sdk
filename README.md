@@ -1,5 +1,7 @@
 # Paynow PHP SDK
 
+[![Build Status](https://travis-ci.org/pay-now/paynow-php-sdk.svg?branch=master)](https://travis-ci.org/pay-now/paynow-php-sdk)
+
 Paynow PHP Library provides access to Paynow API from Applications written in PHP language. 
 
 ## Installation
