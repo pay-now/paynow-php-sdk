@@ -36,7 +36,7 @@ $data = [
         "email": "customer@domain.com"
     ]
 ];
-$payment = new \Paynow\Payment($client);
+$payment = new \Paynow\Service\Payment($client);
 $result = $payment->authorize($data);
 ```
 
