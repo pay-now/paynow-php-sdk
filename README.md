@@ -10,7 +10,7 @@ Paynow PHP Library provides access to Paynow API from Applications written in PH
 ## Installation
 
 ### Composer
-Install the library using Composer
+Install the library using [Composer](https://getcomposer.org)
 ```bash
 $ composer require pay-now/paynow-php-sdk
 ```
@@ -19,25 +19,41 @@ and include composer autoloader
 require_once('vendor/autoload.php');
 ```
 
-### Manual installation
-You can download the [latest release](https://github.com/pay-now/paynow-php-sdk/releases)
-
 ## Usage
-Make a payment on Sandbox environment
+Making a payment
 ```php
 $client = new \Paynow\Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
+$orderReference = "success_1234567"
+$idempotencyKey = uniqid($orderReference . '_');
 
-$data = [
-    "amount": "100",
-    "currency": "PLN",
-    "externalId": "success_1234567",
-    "description": "Test payment",
+$paymentData = [
+    "amount" => "100",
+    "currency" => "PLN",
+    "externalId" => $orderReference,
+    "description" => "Payment description",
     "buyer" => [
-        "email": "customer@domain.com"
+        "email" => "customer@domain.com"
     ]
 ];
+
 $payment = new \Paynow\Service\Payment($client);
-$result = $payment->authorize($data);
+$result = $payment->authorize($paymentData, $idempotencyKey);
+```
+
+Handling notification with current payment status
+```php
+$payload = trim(Tools::file_get_contents('php://input'));
+$headers = getallheaders();
+$notificationData = json_decode($payload, true);
+
+try {
+    new \Paynow\Notification('TestSignatureKey', $payload, $headers);
+    // process notification with $notificationData
+} catch (\Exception $exception) {
+    header('HTTP/1.1 400 Bad Request', true, 400);
+}
+
+header('HTTP/1.1 202 Accepted', true, 202);
 ```
 
 ## Documentation
@@ -47,4 +63,4 @@ See the [Paynow API documentation](https://docs.paynow.pl)
 If you have any problems, questions or suggestions contact with us on [Slack](https://pay-now.slack.com)
 
 ## License
-MIT license. For more information see the [LICENSE](LICENSE) file
+MIT license. For more information see the [LICENSE file](LICENSE)
