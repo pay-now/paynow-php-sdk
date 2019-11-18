@@ -1,7 +1,7 @@
 {
   "name": "pay-now/paynow-php-sdk",
   "description": "PHP client library for accessing Paynow API",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "paynow",
     "mbank",
