@@ -23,7 +23,7 @@ require_once('vendor/autoload.php');
 Making a payment
 ```php
 $client = new \Paynow\Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
-$orderReference = "success_1234567"
+$orderReference = "success_1234567";
 $idempotencyKey = uniqid($orderReference . '_');
 
 $paymentData = [
@@ -36,8 +36,12 @@ $paymentData = [
     ]
 ];
 
-$payment = new \Paynow\Service\Payment($client);
-$result = $payment->authorize($paymentData, $idempotencyKey);
+try {
+    $payment = new \Paynow\Service\Payment($client);
+    $result = $payment->authorize($paymentData, $idempotencyKey);
+} catch (PaynowException $exception) {
+    // catch errors
+}
 ```
 
 Handling notification with current payment status
