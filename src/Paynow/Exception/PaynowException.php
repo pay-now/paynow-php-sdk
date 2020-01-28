@@ -15,9 +15,6 @@ class PaynowException extends Exception
         if ($body) {
             $json = json_decode($body);
             if ($json->errors) {
-                foreach ($json->errors as $error) {
-                    $this->errors[] = new Error($error->errorType, $error->message);
-                }
                 $this->errors = $json->errors;
             }
         }
