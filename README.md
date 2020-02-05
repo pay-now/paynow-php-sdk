@@ -64,7 +64,7 @@ header('HTTP/1.1 202 Accepted', true, 202);
 See the [Paynow API documentation](https://docs.paynow.pl)
 
 ## Support
-If you have any problems, questions or suggestions contact with us on [Slack](https://pay-now.slack.com)
+If you have any questions or issues, please contact our support at support@paynow.pl.
 
 ## License
 MIT license. For more information see the [LICENSE file](LICENSE)
