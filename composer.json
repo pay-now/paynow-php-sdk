@@ -24,8 +24,10 @@
     "ext-curl": "*",
     "ext-json": "*",
     "guzzlehttp/psr7": "^1.6",
-    "php-http/curl-client": "^1.7",
-    "php-http/message": "^1.7"
+    "php-http/curl-client": "^2.1",
+    "php-http/message": "^1.8",
+    "php-http/discovery": "^1.7",
+    "nyholm/psr7": "^1.2"
   },
   "require-dev": {
     "php-http/mock-client": "^1.3",

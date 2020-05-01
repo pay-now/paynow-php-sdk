@@ -4,24 +4,20 @@ namespace Paynow\HttpClient;
 
 use Http\Client\Curl\Client;
 use Http\Client\Exception\RequestException;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
-use Http\Message\StreamFactory\GuzzleStreamFactory;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Paynow\Configuration;
 use Paynow\Util\SignatureCalculator;
 use Psr\Http\Message\RequestInterface;
 
 class HttpClient implements HttpClientInterface
 {
-    /**
-     * @var Client
-     */
+    /** @var Client */
     protected $client;
-
+    /** @var \Psr\Http\Message\RequestFactoryInterface  */
     protected $messageFactory;
-
-    /**
-     * @var Configuration
-     */
+    /** @var \Psr\Http\Message\StreamFactoryInterface  */
+    protected $streamFactory;
+    /** @var Configuration */
     protected $config;
 
     /**
@@ -33,8 +29,9 @@ class HttpClient implements HttpClientInterface
         $options = [
             CURLOPT_CONNECTTIMEOUT => 10,
         ];
-        $this->messageFactory = new GuzzleMessageFactory();
-        $this->client = new Client($this->messageFactory, new GuzzleStreamFactory(), $options);
+        $this->messageFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+        $this->client = new Client(Psr17FactoryDiscovery::findResponseFactory(), $this->streamFactory, $options);
     }
 
     /**
@@ -80,10 +77,14 @@ class HttpClient implements HttpClientInterface
 
         $request = $this->messageFactory->createRequest(
             'POST',
-            $this->config->getUrl().$url,
-            $headers,
-            $this->prepareData($data)
+            $this->config->getUrl().$url
         );
+
+        foreach ($headers as $name => $value) {
+            $request->withHeader($name, $value);
+        }
+
+        $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
 
         try {
             return $this->send($request);
@@ -103,10 +104,14 @@ class HttpClient implements HttpClientInterface
         $headers = $this->prepareHeaders($data);
         $request = $this->messageFactory->createRequest(
             'PATCH',
-            $this->config->getUrl().$url,
-            $headers,
-            $this->prepareData($data)
+            $this->config->getUrl().$url
         );
+
+        foreach ($headers as $name => $value) {
+            $request->withHeader($name, $value);
+        }
+
+        $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
 
         return $this->send($request);
     }
@@ -120,9 +125,12 @@ class HttpClient implements HttpClientInterface
     {
         $request = $this->messageFactory->createRequest(
             'GET',
-            $this->config->getUrl().$url,
-            $this->prepareHeaders()
+            $this->config->getUrl().$url
         );
+
+        foreach ($this->prepareHeaders() as $name => $value) {
+            $request->withHeader($name, $value);
+        }
 
         return $this->send($request);
     }
