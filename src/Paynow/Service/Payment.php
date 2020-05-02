@@ -15,7 +15,7 @@ class Payment extends Service
      * @param array $data
      * @param string $idempotencyKey
      * @throws PaynowException
-     * @return ApiResponse
+     * @return \stdClass
      */
     public function authorize(array $data, $idempotencyKey = null)
     {
@@ -40,7 +40,7 @@ class Payment extends Service
     /**
      * @param string $paymentId
      * @throws PaynowException
-     * @return ApiResponse
+     * @return \stdClass
      */
     public function status($paymentId)
     {

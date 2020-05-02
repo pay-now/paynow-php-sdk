@@ -81,10 +81,10 @@ class HttpClient implements HttpClientInterface
         );
 
         foreach ($headers as $name => $value) {
-            $request->withHeader($name, $value);
+            $request = $request->withHeader($name, $value);
         }
 
-        $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
+        $request = $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
 
         try {
             return $this->send($request);
@@ -108,10 +108,10 @@ class HttpClient implements HttpClientInterface
         );
 
         foreach ($headers as $name => $value) {
-            $request->withHeader($name, $value);
+            $request = $request->withHeader($name, $value);
         }
 
-        $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
+        $request = $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
 
         return $this->send($request);
     }
@@ -129,7 +129,7 @@ class HttpClient implements HttpClientInterface
         );
 
         foreach ($this->prepareHeaders() as $name => $value) {
-            $request->withHeader($name, $value);
+            $request = $request->withHeader($name, $value);
         }
 
         return $this->send($request);
