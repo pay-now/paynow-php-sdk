@@ -46,7 +46,7 @@ try {
 
 Handling notification with current payment status
 ```php
-$payload = trim(Tools::file_get_contents('php://input'));
+$payload = trim(file_get_contents('php://input'));
 $headers = getallheaders();
 $notificationData = json_decode($payload, true);
 
