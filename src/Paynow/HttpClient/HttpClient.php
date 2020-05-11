@@ -7,27 +7,25 @@ use Http\Client\Exception\RequestException;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Paynow\Configuration;
 use Paynow\Util\SignatureCalculator;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class HttpClient implements HttpClientInterface
 {
     /** @var Client */
     protected $client;
 
-    /** @var \Psr\Http\Message\RequestFactoryInterface  */
+    /** @var RequestFactoryInterface  */
     protected $messageFactory;
 
-    /** @var \Psr\Http\Message\StreamFactoryInterface  */
+    /** @var StreamFactoryInterface  */
     protected $streamFactory;
 
-    /**
-     * @var Configuration
-     */
+    /** @var Configuration */
     protected $config;
 
-    /**
-     * @param Configuration $config
-     */
+    /** @param Configuration $config */
     public function __construct(Configuration $config)
     {
         $this->config = $config;
