@@ -3,6 +3,7 @@
 
 **Breaking Changes:**
 - Changed type of `errors` in `PaynowException` to `Error`
+- Changed the name of method `getErrorType` in `Error`
 
 ## 1.0.5
 - Fixed missing headers for payment status
