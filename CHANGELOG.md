@@ -1,6 +1,8 @@
-## 1.0.6
-- Marked `getErrors` in `PaynowExcpetion` as deprecated since 1.1.0
+## 1.1.0
 - Upgraded dependencies to PSR-17
+
+**Breaking Changes:**
+- Changed type of `errors` in `PaynowException` to `Error`
 
 ## 1.0.5
 - Fixed missing headers for payment status
@@ -22,4 +24,4 @@
 - Removed User-agent version
 
 ## 1.0.0
-- Initialize release
+- Initial release

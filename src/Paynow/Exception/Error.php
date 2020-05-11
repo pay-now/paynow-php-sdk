@@ -7,25 +7,25 @@ class Error
     /**
      * @var string
      */
-    private $errorType;
+    private $type;
 
     /**
      * @var string
      */
     private $message;
 
-    public function __construct($errorType, $message)
+    public function __construct($type, $message)
     {
-        $this->errorType = $errorType;
+        $this->type = $type;
         $this->message = $message;
     }
 
     /**
      * @return string
      */
-    public function getErrorType()
+    public function getType()
     {
-        return $this->errorType;
+        return $this->type;
     }
 
     /**

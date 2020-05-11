@@ -18,13 +18,12 @@ class PaynowException extends Exception
                 foreach ($json->errors as $error) {
                     $this->errors[] = new Error($error->errorType, $error->message);
                 }
-                $this->errors = $json->errors;
             }
         }
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
     public function getErrors()
     {

@@ -37,10 +37,10 @@ class ShopConfigurationTest extends TestCase
         } catch (PaynowException $exception) {
             // then
             $this->assertEquals(400, $exception->getCode());
-            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->errorType);
+            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->getType());
             $this->assertEquals(
                 'continue_url: invalid field value',
-                $exception->getErrors()[0]->message
+                $exception->getErrors()[0]->getMessage()
             );
         }
     }

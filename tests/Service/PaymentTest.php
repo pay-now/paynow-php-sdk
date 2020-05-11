@@ -40,10 +40,10 @@ class PaymentTest extends TestCase
         } catch (PaynowException $exception) {
             // then
             $this->assertEquals(400, $exception->getCode());
-            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->errorType);
+            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->getType());
             $this->assertEquals(
                 'currency: invalid field value (EUR)',
-                $exception->getErrors()[0]->message
+                $exception->getErrors()[0]->getMessage()
             );
         }
     }
@@ -78,10 +78,10 @@ class PaymentTest extends TestCase
         } catch (PaynowException $exception) {
             // then
             $this->assertEquals(404, $exception->getCode());
-            $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->errorType);
+            $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->getType());
             $this->assertEquals(
                 'Could not find status for payment {paymentId=PBYV-3AZ-UPW-DPCf}',
-                $exception->getErrors()[0]->message
+                $exception->getErrors()[0]->getMessage()
             );
         }
     }
