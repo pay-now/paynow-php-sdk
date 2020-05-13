@@ -25,7 +25,7 @@ class SignatureCalculator
         if (empty($data)) {
             throw new InvalidArgumentException('You did not provide any data');
         }
-        $this->hash = base64_encode(hash_hmac('sha256', json_encode($data, JSON_UNESCAPED_SLASHES), $signatureKey, true));
+        $this->hash = base64_encode(hash_hmac('sha256', json_encode($data), $signatureKey, true));
     }
 
     /**
