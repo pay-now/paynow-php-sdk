@@ -23,7 +23,7 @@ class PaynowException extends Exception
     }
 
     /**
-     * @return Error[]
+     * @return Error[]|null
      */
     public function getErrors()
     {
