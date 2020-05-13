@@ -28,7 +28,7 @@ class SignatureCalculatorTest extends TestCase
         );
 
         // then
-        $this->assertEquals('bqD6spGJwPABe58i+mbqsYoF/JLUDR58yqxRqrb0AR0=', $signatureCalculator->getHash());
+        $this->assertEquals('vnZs3ZaiBGFd9R6qEfgKO1psx+S2P9sFIcY4AO5hJ78=', $signatureCalculator->getHash());
     }
 
     public function testExceptionForEmptyData()
