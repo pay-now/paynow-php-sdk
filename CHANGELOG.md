@@ -2,8 +2,9 @@
 - Upgraded dependencies to PSR-17
 
 **Breaking Changes:**
-- Changed type of `errors` in `PaynowException` to `Error`
-- Changed the name of method `getErrorType` in `Error`
+- Changed type of `$errors` in `PaynowException` to `Error`
+- Changed the name of method `getErrorType` for `Error`
+- Changed type of `$data` to string for `SignatureCalculator` 
 
 ## 1.0.6
 - Marked `getErrorType` for `Error` as deprecated

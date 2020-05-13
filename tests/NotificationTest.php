@@ -27,11 +27,11 @@ class NotificationTest extends TestCase
         return [
             [
                 $payload,
-                ['Signature' => 'UZgTT6iSv174R/OyQ2DWRCE9UCmvdXDS8rbQQcjk+AA=']
+                ['Signature' => 'Aq/VmN15rtjVbuy9F7Yw+Ym76H+VZjVSuHGpg4dwitY=']
             ],
             [
                 $payload,
-                ['signature' => 'UZgTT6iSv174R/OyQ2DWRCE9UCmvdXDS8rbQQcjk+AA=']
+                ['signature' => 'Aq/VmN15rtjVbuy9F7Yw+Ym76H+VZjVSuHGpg4dwitY=']
             ]
         ];
     }
@@ -41,7 +41,7 @@ class NotificationTest extends TestCase
         // given
         $this->expectException(SignatureVerificationException::class);
         $payload = $this->loadData('notification.json', true);
-        $headers = ['Signature' => 'Aq/VmN15rtjVbuy9F7Yw+Ym76H+VZjVSuHGpg4dwitY='];
+        $headers = ['Signature' => 'Wq/V2N15rtjVbuy9F7Yw+Ym76H+VZjVSuHGpg4dwitY='];
 
         // when
         new Notification('s3ecret-k3y', $payload, $headers);

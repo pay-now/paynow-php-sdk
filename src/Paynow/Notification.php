@@ -25,7 +25,7 @@ class Notification
             throw new InvalidArgumentException('No headers have been provided');
         }
 
-        $this->verify($signatureKey, $this->parsePayload($payload), $headers);
+        $this->verify($signatureKey, $payload, $headers);
     }
 
     /**

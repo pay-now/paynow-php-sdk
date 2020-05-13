@@ -161,7 +161,7 @@ class HttpClient implements HttpClientInterface
 
         if ($data) {
             $headers['Content-Type'] = 'application/json';
-            $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), $data);
+            $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), json_encode($data));
         }
 
         return $headers;
