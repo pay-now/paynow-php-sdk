@@ -1,5 +1,6 @@
 ## 1.0.6
 - Marked `getErrorType` for `Error` as deprecated
+- Fixed hash calculation for slashed data
 
 ## 1.0.5
 - Fixed missing headers for payment status
