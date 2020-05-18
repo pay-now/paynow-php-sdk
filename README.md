@@ -12,7 +12,7 @@ Paynow PHP Library provides access to Paynow API from Applications written in PH
 ### Composer
 Install the library using [Composer](https://getcomposer.org)
 ```bash
-$ composer require pay-now/paynow-php-sdk nyholm/psr7
+$ composer require pay-now/paynow-php-sdk nyholm/psr7 php-http/curl-client
 ```
 and include composer autoloader
 ```php
