@@ -17,7 +17,7 @@ class PaymentTest extends TestCase
         $paymentData = $this->loadData('payment_request.json');
 
         // when
-        $response = $paymentService->authorize($paymentData, 'idempotencyKey123');
+        $response = $paymentService->authorize($paymentData, 'idempotencyKey123')->decode();
 
         // then
         $this->assertNotEmpty($response->redirectUrl);
@@ -57,7 +57,7 @@ class PaymentTest extends TestCase
         $paymentId = 'PBYV-3AZ-UPW-DPC';
 
         // when
-        $response = $paymentService->status($paymentId);
+        $response = $paymentService->status($paymentId)->decode();
 
         // then
         $this->assertEquals($response->paymentId, $paymentId);

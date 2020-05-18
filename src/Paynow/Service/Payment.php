@@ -26,8 +26,7 @@ class Payment extends Service
                     Configuration::API_VERSION.'/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
-                )
-                ->decode();
+                );
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
@@ -47,8 +46,7 @@ class Payment extends Service
         try {
             return $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION."/payments/$paymentId/status")
-                ->decode();
+                ->get(Configuration::API_VERSION."/payments/$paymentId/status");
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
