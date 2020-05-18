@@ -12,7 +12,7 @@ Paynow PHP Library provides access to Paynow API from Applications written in PH
 ### Composer
 Install the library using [Composer](https://getcomposer.org)
 ```bash
-$ composer require pay-now/paynow-php-sdk
+$ composer require pay-now/paynow-php-sdk nyholm/psr7
 ```
 and include composer autoloader
 ```php
@@ -38,8 +38,8 @@ $paymentData = [
 
 try {
     $payment = new \Paynow\Service\Payment($client);
-    $result = $payment->authorize($paymentData, $idempotencyKey);
-} catch (PaynowException $exception) {
+    $result = $payment->authorize($paymentData, $idempotencyKey)->decode();
+} catch (\Paynow\Exception\PaynowException $exception) {
     // catch errors
 }
 ```
