@@ -17,7 +17,7 @@ class Payment extends Service
      * @throws PaynowException
      * @return ApiResponse
      */
-    public function authorize(array $data, $idempotencyKey = null)
+    public function authorize(array $data, $idempotencyKey = null): ApiResponse
     {
         try {
             return $this->getClient()
@@ -25,7 +25,7 @@ class Payment extends Service
                 ->post(
                     Configuration::API_VERSION.'/payments',
                     $data,
-                    $idempotencyKey ? $idempotencyKey : $data['externalId']
+                    $idempotencyKey ?? $data['externalId']
                 )
                 ->decode();
         } catch (HttpClientException $exception) {
@@ -42,7 +42,7 @@ class Payment extends Service
      * @throws PaynowException
      * @return ApiResponse
      */
-    public function status($paymentId)
+    public function status(string $paymentId): ApiResponse
     {
         try {
             return $this->getClient()

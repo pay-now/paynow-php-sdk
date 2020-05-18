@@ -6,9 +6,10 @@ use Exception;
 
 class PaynowException extends Exception
 {
+    /** @var Error[]|null */
     private $errors;
 
-    public function __construct($message = '', $code = 0, $body = null)
+    public function __construct(string $message = '', int $code = 0, ?string $body = null)
     {
         parent::__construct($message, $code, null);
 
@@ -25,7 +26,7 @@ class PaynowException extends Exception
     /**
      * @return Error[]|null
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }

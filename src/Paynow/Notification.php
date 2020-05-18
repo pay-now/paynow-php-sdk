@@ -15,7 +15,7 @@ class Notification
      * @param $headers
      * @throws SignatureVerificationException
      */
-    public function __construct($signatureKey, $payload, $headers)
+    public function __construct($signatureKey, $payload = null, ?array $headers = null)
     {
         if (! $payload) {
             throw new InvalidArgumentException('No payload has been provided');
@@ -49,13 +49,13 @@ class Notification
     /**
      * Verify payload Signature
      *
-     * @param $signatureKey
-     * @param $data
+     * @param string $signatureKey
+     * @param string $data
      * @param array $headers
      * @throws SignatureVerificationException
      * @return bool
      */
-    private function verify($signatureKey, $data, array $headers)
+    private function verify(string $signatureKey, string $data, array $headers)
     {
         $calculatedSignature = (string) new SignatureCalculator($signatureKey, $data);
         if ($calculatedSignature !== $this->getPayloadSignature($headers)) {

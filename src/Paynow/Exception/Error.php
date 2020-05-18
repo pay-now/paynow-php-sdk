@@ -4,17 +4,13 @@ namespace Paynow\Exception;
 
 class Error
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $type;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $message;
 
-    public function __construct($type, $message)
+    public function __construct(string $type, string $message)
     {
         $this->type = $type;
         $this->message = $message;
@@ -24,7 +20,7 @@ class Error
      * @deprecated
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -32,7 +28,7 @@ class Error
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }

@@ -4,6 +4,6 @@ namespace Paynow;
 
 class Environment
 {
-    const PRODUCTION = 'production';
-    const SANDBOX = 'sandbox';
+    public const PRODUCTION = 'production';
+    public const SANDBOX = 'sandbox';
 }

@@ -6,29 +6,21 @@ use Exception;
 
 class HttpClientException extends Exception
 {
-    /**
-     * @var string
-     */
+    /** @var string|null */
     private $body;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $errors;
 
-    /**
-     * @var int
-     */
+    /** @var int|null */
     private $status;
 
     /**
-     * HttpClientException constructor.
-     *
-     * @param $message
-     * @param $status
-     * @param $body
+     * @param string $message
+     * @param int|null $status
+     * @param string|null $body
      */
-    public function __construct($message, $status = null, $body = null)
+    public function __construct(string $message, ?int $status = null, ?string $body = null)
     {
         parent::__construct($message);
         $this->status = $status;
@@ -36,17 +28,17 @@ class HttpClientException extends Exception
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBody()
+    public function getBody(): ?string
     {
         return $this->body;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStatus()
+    public function getStatus(): ?int
     {
         return $this->status;
     }

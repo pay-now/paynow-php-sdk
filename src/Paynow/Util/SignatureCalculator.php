@@ -6,17 +6,15 @@ use InvalidArgumentException;
 
 class SignatureCalculator
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $hash;
 
     /**
      * @param string $signatureKey
-     * @param string  $data
+     * @param string $data
      * @throws InvalidArgumentException
      */
-    public function __construct($signatureKey, $data)
+    public function __construct(string $signatureKey, string $data)
     {
         if (empty($signatureKey)) {
             throw new InvalidArgumentException('You did not provide a Signature key');
@@ -31,7 +29,7 @@ class SignatureCalculator
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->getHash();
     }
@@ -39,7 +37,7 @@ class SignatureCalculator
     /**
      * @return string
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
