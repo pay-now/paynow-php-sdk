@@ -4,8 +4,9 @@ namespace Paynow\Service;
 
 use Paynow\Configuration;
 use Paynow\Exception\PaynowException;
-use Paynow\HttpClient\ApiResponse;
 use Paynow\HttpClient\HttpClientException;
+use Paynow\Response\Payment\Authorize;
+use Paynow\Response\Payment\Status;
 
 class Payment extends Service
 {
@@ -15,18 +16,20 @@ class Payment extends Service
      * @param array $data
      * @param string $idempotencyKey
      * @throws PaynowException
-     * @return ApiResponse
+     * @return Authorize
      */
-    public function authorize(array $data, $idempotencyKey = null): ApiResponse
+    public function authorize(array $data, $idempotencyKey = null): Authorize
     {
         try {
-            return $this->getClient()
+            $decpdedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    Configuration::API_VERSION.'/payments',
+                    Configuration::API_VERSION . '/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
-                );
+                )
+                ->decode();
+            return new Authorize($decpdedApiResponse->redirectUrl, $decpdedApiResponse->paymentId, $decpdedApiResponse->status);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
@@ -39,14 +42,17 @@ class Payment extends Service
     /**
      * @param string $paymentId
      * @throws PaynowException
-     * @return ApiResponse
+     * @return Status
      */
-    public function status(string $paymentId): ApiResponse
+    public function status(string $paymentId): Status
     {
         try {
-            return $this->getClient()
+            $decpdedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION."/payments/$paymentId/status");
+                ->get(Configuration::API_VERSION . "/payments/$paymentId/status")
+                ->decode();
+
+            return new Status($decpdedApiResponse->paymentId, $decpdedApiResponse->status);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),

@@ -17,12 +17,12 @@ class PaymentTest extends TestCase
         $paymentData = $this->loadData('payment_request.json');
 
         // when
-        $response = $paymentService->authorize($paymentData, 'idempotencyKey123')->decode();
+        $response = $paymentService->authorize($paymentData, 'idempotencyKey123');
 
         // then
-        $this->assertNotEmpty($response->redirectUrl);
-        $this->assertNotEmpty($response->paymentId);
-        $this->assertNotEmpty($response->status);
+        $this->assertNotEmpty($response->getRedirectUrl());
+        $this->assertNotEmpty($response->getPaymentId());
+        $this->assertNotEmpty($response->getStatus());
     }
 
     public function testShouldNotAuthorizePaymentSuccessfully()
@@ -57,11 +57,11 @@ class PaymentTest extends TestCase
         $paymentId = 'PBYV-3AZ-UPW-DPC';
 
         // when
-        $response = $paymentService->status($paymentId)->decode();
+        $response = $paymentService->status($paymentId);
 
         // then
-        $this->assertEquals($response->paymentId, $paymentId);
-        $this->assertEquals($response->status, 'NEW');
+        $this->assertEquals($paymentId, $response->getPaymentId());
+        $this->assertEquals('NEW', $response->getStatus());
     }
 
     public function testShouldNotRetrievePaymentStatusSuccesfully()

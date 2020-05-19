@@ -2,6 +2,7 @@
 
 namespace Paynow\Tests\Util;
 
+use InvalidArgumentException;
 use Paynow\Tests\TestCase;
 use Paynow\Util\SignatureCalculator;
 
@@ -34,7 +35,7 @@ class SignatureCalculatorTest extends TestCase
     public function testExceptionForEmptyData()
     {
         // given
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         // when
         $signatureCalculator = new SignatureCalculator('a621a1fb-b4d8-48ba-a6a3-2a28ed61f605', "");

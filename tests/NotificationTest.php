@@ -2,6 +2,7 @@
 
 namespace Paynow\Tests;
 
+use InvalidArgumentException;
 use Paynow\Exception\SignatureVerificationException;
 use Paynow\Notification;
 
@@ -9,6 +10,9 @@ class NotificationTest extends TestCase
 {
     /**
      * @dataProvider requestsToTest
+     * @param $payload
+     * @param $headers
+     * @throws SignatureVerificationException
      */
     public function testVerifyPayloadSuccessfully($payload, $headers)
     {
@@ -52,7 +56,7 @@ class NotificationTest extends TestCase
     public function testShouldThrowExceptionOnMissingPayload()
     {
         // given
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $payload = null;
         $headers = [];
 
@@ -65,7 +69,7 @@ class NotificationTest extends TestCase
     public function testShouldThrowExceptionOnMissingPayloadHeaders()
     {
         // given
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $payload = $this->loadData('notification.json', true);
         $headers = null;
 

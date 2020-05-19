@@ -16,11 +16,11 @@ class Notification
      */
     public function __construct($signatureKey, $payload = null, ?array $headers = null)
     {
-        if (!$payload) {
+        if (! $payload) {
             throw new InvalidArgumentException('No payload has been provided');
         }
 
-        if (!$headers) {
+        if (! $headers) {
             throw new InvalidArgumentException('No headers have been provided');
         }
 
@@ -33,8 +33,8 @@ class Notification
      * @param string $signatureKey
      * @param string $data
      * @param array $headers
-     * @return bool
      * @throws SignatureVerificationException
+     * @return bool
      */
     private function verify(string $signatureKey, string $data, array $headers)
     {
@@ -50,8 +50,8 @@ class Notification
      * Retrieve Signature from payload
      *
      * @param array $headers
-     * @return mixed
      * @throws SignatureVerificationException
+     * @return string
      */
     private function getPayloadSignature(array $headers)
     {

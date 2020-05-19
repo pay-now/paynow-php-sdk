@@ -2,11 +2,11 @@
 
 namespace Paynow\HttpClient;
 
-use Http\Client\Exception\RequestException;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Paynow\Configuration;
 use Paynow\Util\SignatureCalculator;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -18,10 +18,10 @@ class HttpClient implements HttpClientInterface
     /** @var ClientInterface */
     protected $client;
 
-    /** @var RequestFactoryInterface  */
+    /** @var RequestFactoryInterface */
     protected $messageFactory;
 
-    /** @var StreamFactoryInterface  */
+    /** @var StreamFactoryInterface */
     protected $streamFactory;
 
     /** @var Configuration */
@@ -46,7 +46,7 @@ class HttpClient implements HttpClientInterface
     private function getUserAgent(): string
     {
         if ($this->config->getApplicationName()) {
-            return $this->config->getApplicationName().' ('.Configuration::USER_AGENT.')';
+            return $this->config->getApplicationName() . ' (' . Configuration::USER_AGENT . ')';
         }
 
         return Configuration::USER_AGENT;
@@ -55,31 +55,30 @@ class HttpClient implements HttpClientInterface
     /**
      * @param RequestInterface $request
      * @throws HttpClientException
-     * @throws \Psr\Http\Client\ClientExceptionInterface
      * @return ApiResponse
      */
     private function send(RequestInterface $request): ApiResponse
     {
         try {
             return new ApiResponse($this->client->sendRequest($request));
-        } catch (RequestException $exception) {
-            throw new HttpClientException($exception->getMessage());
+        } catch (ClientExceptionInterface $exception) {
+            throw new HttpClientException($exception->getMessage(), $exception->getCode());
         }
     }
 
     /**
      * @param string $url
      * @param array $data
-     * @param null  $idempotencyKey
-     * @throws HttpClientException
+     * @param string|null $idempotencyKey
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function post(string $url, array $data, $idempotencyKey = null): ApiResponse
+    public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse
     {
         $headers = $this->prepareHeaders($data);
 
         if ($idempotencyKey) {
-            $headers['Idempotency-Key'] = (string) $idempotencyKey;
+            $headers['Idempotency-Key'] = $idempotencyKey;
         }
 
         $request = $this->messageFactory->createRequest(
@@ -91,13 +90,9 @@ class HttpClient implements HttpClientInterface
             $request = $request->withHeader($name, $value);
         }
 
-        $request = $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
+        $request = $request->withBody($this->streamFactory->createStream($this->arrayAsJson($data)));
 
-        try {
-            return $this->send($request);
-        } catch (RequestException $exception) {
-            throw new HttpClientException($exception->getMessage());
-        }
+        return $this->send($request);
     }
 
     /**
@@ -118,13 +113,13 @@ class HttpClient implements HttpClientInterface
             $request = $request->withHeader($name, $value);
         }
 
-        $request = $request->withBody($this->streamFactory->createStream($this->prepareData($data)));
+        $request = $request->withBody($this->streamFactory->createStream($this->arrayAsJson($data)));
 
         return $this->send($request);
     }
 
     /**
-     * @param  string $url
+     * @param string $url
      * @throws HttpClientException
      * @return ApiResponse
      */
@@ -146,7 +141,7 @@ class HttpClient implements HttpClientInterface
      * @param array $data
      * @return string
      */
-    private function prepareData(array $data): string
+    private function arrayAsJson(array $data): string
     {
         return json_encode($data);
     }
