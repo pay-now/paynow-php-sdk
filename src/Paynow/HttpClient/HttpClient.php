@@ -55,6 +55,7 @@ class HttpClient implements HttpClientInterface
     /**
      * @param RequestInterface $request
      * @throws HttpClientException
+     * @throws \Psr\Http\Client\ClientExceptionInterface
      * @return ApiResponse
      */
     private function send(RequestInterface $request): ApiResponse
