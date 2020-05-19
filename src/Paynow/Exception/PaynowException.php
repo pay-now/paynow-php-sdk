@@ -9,7 +9,7 @@ class PaynowException extends Exception
     /** @var Error[]|null */
     private $errors;
 
-    public function __construct(string $message = '', int $code = 0, ?string $body = null)
+    public function __construct(string $message, int $code = 0, ?string $body = null)
     {
         parent::__construct($message, $code, null);
 

@@ -7,6 +7,9 @@
 
 Paynow PHP Library provides access to Paynow API from Applications written in PHP language. 
 
+## Requirements
+PHP 7.1 or higher
+
 ## Installation
 
 ### Composer

@@ -1,6 +1,7 @@
 ## 2.0.0
 - Migrated HttpClient to PSR-17 and PSR-18
 - Updated README
+- Required PHP since 7.1
 
 **Breaking Changes:**
 - Changed type of `$errors` in `PaynowException` to `Error`
