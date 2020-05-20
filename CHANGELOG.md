@@ -1,5 +1,5 @@
 ## 2.0.0
-- Migrated HttpClient to PSR-17 and PSR-18
+- Introduced PSR-17 and PSR-18 to HTTP Client
 - Updated README
 
 **Breaking Changes:**

@@ -8,7 +8,8 @@
 Paynow PHP Library provides access to Paynow API from Applications written in PHP language. 
 
 ## Requirements
-PHP 7.1 or higher
+- PHP 7.1 or higher
+- HTTP client implements `php-http/client-implementation`. For more information see the [packages list](https://packagist.org/providers/php-http/client-implementation).    
 
 ## Installation
 
@@ -18,12 +19,12 @@ Install the library using [Composer](https://getcomposer.org)
 $ composer require pay-now/paynow-php-sdk
 ```
 
-also that you have to install HTTP client that implements PSR-17 and interface for PSR-7, for example you can use:
+If you don't have HTTP client that implements PSR-18 you can use:
 ```bash
-$ composer require nyholm/psr7 php-http/curl-client
+$ composer require pay-now/paynow-php-sdk nyholm/psr7 php-http/curl-client
 ```
 
-and include composer autoloader
+Use autoloader
 ```php
 require_once('vendor/autoload.php');
 ```
