@@ -4,14 +4,12 @@ namespace Paynow;
 
 class Configuration implements ConfigurationInterface
 {
-    const API_VERSION = 'v1';
-    const API_PRODUCTION_URL = 'https://api.paynow.pl/';
-    const API_SANDBOX_URL = 'https://api.sandbox.paynow.pl/';
-    const USER_AGENT = 'paynow-php-sdk';
+    public const API_VERSION = 'v1';
+    public const API_PRODUCTION_URL = 'https://api.paynow.pl/';
+    public const API_SANDBOX_URL = 'https://api.sandbox.paynow.pl/';
+    public const USER_AGENT = 'paynow-php-sdk';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $data = [];
 
     /**

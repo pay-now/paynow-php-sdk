@@ -4,35 +4,30 @@ namespace Paynow\Exception;
 
 class Error
 {
-    /**
-     * @var string
-     */
-    private $errorType;
+    /** @var string */
+    private $type;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $message;
 
-    public function __construct($errorType, $message)
+    public function __construct(string $type, string $message)
     {
-        $this->errorType = $errorType;
+        $this->type = $type;
         $this->message = $message;
     }
 
     /**
-     * @deprecated
      * @return string
      */
-    public function getErrorType()
+    public function getType(): string
     {
-        return $this->errorType;
+        return $this->type;
     }
 
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }

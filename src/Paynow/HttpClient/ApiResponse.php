@@ -53,7 +53,7 @@ class ApiResponse
      */
     public function decode()
     {
-        return json_decode($this->body);
+        return json_decode((string)$this->body);
     }
 
     /**
@@ -61,7 +61,7 @@ class ApiResponse
      *
      * @return int
      */
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -71,7 +71,7 @@ class ApiResponse
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }

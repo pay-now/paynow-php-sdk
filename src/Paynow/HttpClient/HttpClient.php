@@ -2,48 +2,51 @@
 
 namespace Paynow\HttpClient;
 
-use Http\Client\Curl\Client;
-use Http\Client\Exception\RequestException;
-use Http\Message\MessageFactory\GuzzleMessageFactory;
-use Http\Message\StreamFactory\GuzzleStreamFactory;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Paynow\Configuration;
 use Paynow\Util\SignatureCalculator;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriInterface;
 
 class HttpClient implements HttpClientInterface
 {
-    /**
-     * @var Client
-     */
+    /** @var ClientInterface */
     protected $client;
 
+    /** @var RequestFactoryInterface */
     protected $messageFactory;
 
-    /**
-     * @var Configuration
-     */
+    /** @var StreamFactoryInterface */
+    protected $streamFactory;
+
+    /** @var Configuration */
     protected $config;
 
-    /**
-     * @param Configuration $config
-     */
+    /** @var UriInterface */
+    private $url;
+
+    /** @param Configuration $config */
     public function __construct(Configuration $config)
     {
         $this->config = $config;
-        $options = [
-            CURLOPT_CONNECTTIMEOUT => 10,
-        ];
-        $this->messageFactory = new GuzzleMessageFactory();
-        $this->client = new Client($this->messageFactory, new GuzzleStreamFactory(), $options);
+        $this->messageFactory = Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
+        $this->client = Psr18ClientDiscovery::find();
+        $this->url = Psr17FactoryDiscovery::findUrlFactory()->createUri((string)$config->getUrl());
     }
 
     /**
      * @return string
      */
-    private function getUserAgent()
+    private function getUserAgent(): string
     {
         if ($this->config->getApplicationName()) {
-            return $this->config->getApplicationName().' ('.Configuration::USER_AGENT.')';
+            return $this->config->getApplicationName() . ' (' . Configuration::USER_AGENT . ')';
         }
 
         return Configuration::USER_AGENT;
@@ -54,23 +57,23 @@ class HttpClient implements HttpClientInterface
      * @throws HttpClientException
      * @return ApiResponse
      */
-    private function send(RequestInterface $request)
+    private function send(RequestInterface $request): ApiResponse
     {
         try {
             return new ApiResponse($this->client->sendRequest($request));
-        } catch (RequestException $exception) {
-            throw new HttpClientException($exception->getMessage());
+        } catch (ClientExceptionInterface $exception) {
+            throw new HttpClientException($exception->getMessage(), $exception->getCode());
         }
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @param array $data
-     * @param null  $idempotencyKey
-     * @throws HttpClientException
+     * @param string|null $idempotencyKey
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function post($url, array $data, $idempotencyKey = null)
+    public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse
     {
         $headers = $this->prepareHeaders($data);
 
@@ -80,49 +83,56 @@ class HttpClient implements HttpClientInterface
 
         $request = $this->messageFactory->createRequest(
             'POST',
-            $this->config->getUrl().$url,
-            $headers,
-            $this->prepareData($data)
+            $this->url->withPath($url)
         );
 
-        try {
-            return $this->send($request);
-        } catch (RequestException $exception) {
-            throw new HttpClientException($exception->getMessage());
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
         }
-    }
 
-    /**
-     * @param $url
-     * @param array $data
-     * @throws HttpClientException
-     * @return ApiResponse
-     */
-    public function patch($url, array $data)
-    {
-        $headers = $this->prepareHeaders($data);
-        $request = $this->messageFactory->createRequest(
-            'PATCH',
-            $this->config->getUrl().$url,
-            $headers,
-            $this->prepareData($data)
-        );
+        $request = $request->withBody($this->streamFactory->createStream($this->arrayAsJson($data)));
 
         return $this->send($request);
     }
 
     /**
-     * @param  $url
+     * @param string $url
+     * @param array $data
      * @throws HttpClientException
      * @return ApiResponse
      */
-    public function get($url)
+    public function patch(string $url, array $data): ApiResponse
+    {
+        $headers = $this->prepareHeaders($data);
+        $request = $this->messageFactory->createRequest(
+            'PATCH',
+            $this->url->withPath($url)
+        );
+
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        $request = $request->withBody($this->streamFactory->createStream($this->arrayAsJson($data)));
+
+        return $this->send($request);
+    }
+
+    /**
+     * @param string $url
+     * @throws HttpClientException
+     * @return ApiResponse
+     */
+    public function get(string $url): ApiResponse
     {
         $request = $this->messageFactory->createRequest(
             'GET',
-            $this->config->getUrl().$url,
-            $this->prepareHeaders()
+            $this->url->withPath($url)
         );
+
+        foreach ($this->prepareHeaders() as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
 
         return $this->send($request);
     }
@@ -131,7 +141,7 @@ class HttpClient implements HttpClientInterface
      * @param array $data
      * @return string
      */
-    private function prepareData(array $data)
+    private function arrayAsJson(array $data): string
     {
         return json_encode($data);
     }
@@ -140,7 +150,7 @@ class HttpClient implements HttpClientInterface
      * @param null|array $data
      * @return array
      */
-    private function prepareHeaders($data = null)
+    private function prepareHeaders(?array $data = null)
     {
         $headers = [
             'Api-Key' => $this->config->getApiKey(),
@@ -150,7 +160,7 @@ class HttpClient implements HttpClientInterface
 
         if ($data) {
             $headers['Content-Type'] = 'application/json';
-            $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), $data);
+            $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), json_encode($data));
         }
 
         return $headers;

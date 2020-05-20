@@ -15,7 +15,7 @@ class ShopConfiguration extends Service
      * @throws PaynowException
      * @return ApiResponse
      */
-    public function changeUrls($continueUrl, $notificationUrl)
+    public function changeUrls(string $continueUrl, string $notificationUrl)
     {
         $data = [
             'continueUrl' => $continueUrl,

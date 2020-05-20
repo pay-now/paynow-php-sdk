@@ -7,6 +7,9 @@
 
 Paynow PHP Library provides access to Paynow API from Applications written in PHP language. 
 
+## Requirements
+PHP 7.1 or higher
+
 ## Installation
 
 ### Composer
@@ -14,6 +17,12 @@ Install the library using [Composer](https://getcomposer.org)
 ```bash
 $ composer require pay-now/paynow-php-sdk
 ```
+
+also that you have to install HTTP client that implements PSR-17 and interface for PSR-7, for example you can use:
+```bash
+$ composer require nyholm/psr7 php-http/curl-client
+```
+
 and include composer autoloader
 ```php
 require_once('vendor/autoload.php');
@@ -22,7 +31,12 @@ require_once('vendor/autoload.php');
 ## Usage
 Making a payment
 ```php
-$client = new \Paynow\Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
+use Paynow\Client;
+use Paynow\Environment;
+use Paynow\Exception\PaynowException;
+use Paynow\Service\Payment;
+
+$client = new Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
 $orderReference = "success_1234567";
 $idempotencyKey = uniqid($orderReference . '_');
 
@@ -37,7 +51,7 @@ $paymentData = [
 ];
 
 try {
-    $payment = new \Paynow\Service\Payment($client);
+    $payment = new Payment($client);
     $result = $payment->authorize($paymentData, $idempotencyKey);
 } catch (PaynowException $exception) {
     // catch errors
@@ -46,14 +60,16 @@ try {
 
 Handling notification with current payment status
 ```php
+use Paynow\Notification;
+
 $payload = trim(file_get_contents('php://input'));
 $headers = getallheaders();
 $notificationData = json_decode($payload, true);
 
 try {
-    new \Paynow\Notification('TestSignatureKey', $payload, $headers);
+    new Notification('TestSignatureKey', $payload, $headers);
     // process notification with $notificationData
-} catch (\Exception $exception) {
+} catch (Exception $exception) {
     header('HTTP/1.1 400 Bad Request', true, 400);
 }
 

@@ -5,7 +5,6 @@ namespace Paynow;
 use InvalidArgumentException;
 use Paynow\Exception\SignatureVerificationException;
 use Paynow\Util\SignatureCalculator;
-use UnexpectedValueException;
 
 class Notification
 {
@@ -15,7 +14,7 @@ class Notification
      * @param $headers
      * @throws SignatureVerificationException
      */
-    public function __construct($signatureKey, $payload, $headers)
+    public function __construct($signatureKey, $payload = null, ?array $headers = null)
     {
         if (! $payload) {
             throw new InvalidArgumentException('No payload has been provided');
@@ -25,39 +24,21 @@ class Notification
             throw new InvalidArgumentException('No headers have been provided');
         }
 
-        $this->verify($signatureKey, $this->parsePayload($payload), $headers);
-    }
-
-    /**
-     * Parse payload
-     *
-     * @param $payload
-     * @return mixed
-     */
-    private function parsePayload($payload)
-    {
-        $data = json_decode(trim($payload), true);
-        $error = json_last_error();
-
-        if (! $data && JSON_ERROR_NONE !== $error) {
-            throw new UnexpectedValueException("Invalid payload: $error");
-        }
-
-        return $data;
+        $this->verify($signatureKey, $payload, $headers);
     }
 
     /**
      * Verify payload Signature
      *
-     * @param $signatureKey
-     * @param $data
+     * @param string $signatureKey
+     * @param string $data
      * @param array $headers
      * @throws SignatureVerificationException
      * @return bool
      */
-    private function verify($signatureKey, $data, array $headers)
+    private function verify(string $signatureKey, string $data, array $headers)
     {
-        $calculatedSignature = (string) new SignatureCalculator($signatureKey, $data);
+        $calculatedSignature = (string)new SignatureCalculator($signatureKey, $data);
         if ($calculatedSignature !== $this->getPayloadSignature($headers)) {
             throw new SignatureVerificationException('Signature mismatched for payload');
         }
@@ -70,7 +51,7 @@ class Notification
      *
      * @param array $headers
      * @throws SignatureVerificationException
-     * @return mixed
+     * @return string
      */
     private function getPayloadSignature(array $headers)
     {

@@ -20,9 +20,9 @@ class PaymentTest extends TestCase
         $response = $paymentService->authorize($paymentData, 'idempotencyKey123');
 
         // then
-        $this->assertNotEmpty($response->redirectUrl);
-        $this->assertNotEmpty($response->paymentId);
-        $this->assertNotEmpty($response->status);
+        $this->assertNotEmpty($response->getRedirectUrl());
+        $this->assertNotEmpty($response->getPaymentId());
+        $this->assertNotEmpty($response->getStatus());
     }
 
     public function testShouldNotAuthorizePaymentSuccessfully()
@@ -40,10 +40,10 @@ class PaymentTest extends TestCase
         } catch (PaynowException $exception) {
             // then
             $this->assertEquals(400, $exception->getCode());
-            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->errorType);
+            $this->assertEquals('VALIDATION_ERROR', $exception->getErrors()[0]->getType());
             $this->assertEquals(
                 'currency: invalid field value (EUR)',
-                $exception->getErrors()[0]->message
+                $exception->getErrors()[0]->getMessage()
             );
         }
     }
@@ -60,8 +60,8 @@ class PaymentTest extends TestCase
         $response = $paymentService->status($paymentId);
 
         // then
-        $this->assertEquals($response->paymentId, $paymentId);
-        $this->assertEquals($response->status, 'NEW');
+        $this->assertEquals($paymentId, $response->getPaymentId());
+        $this->assertEquals('NEW', $response->getStatus());
     }
 
     public function testShouldNotRetrievePaymentStatusSuccesfully()
@@ -78,10 +78,10 @@ class PaymentTest extends TestCase
         } catch (PaynowException $exception) {
             // then
             $this->assertEquals(404, $exception->getCode());
-            $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->errorType);
+            $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->getType());
             $this->assertEquals(
                 'Could not find status for payment {paymentId=PBYV-3AZ-UPW-DPCf}',
-                $exception->getErrors()[0]->message
+                $exception->getErrors()[0]->getMessage()
             );
         }
     }

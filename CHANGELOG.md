@@ -1,3 +1,15 @@
+## 2.0.0
+- Migrated HttpClient to PSR-17 and PSR-18
+- Updated README
+
+**Breaking Changes:**
+- Changed type of `$errors` in `PaynowException` to `Error`
+- Changed the name of method `getErrorType` for `Error`
+- Changed type of `$data` to string for `SignatureCalculator`
+- Changed `Payment::authorize` response to `Authorize`
+- Changed `Payment::status` response to `Status`
+- Required PHP since 7.1
+
 ## 1.0.6
 - Marked `getErrorType` for `Error` as deprecated
 
