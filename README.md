@@ -15,8 +15,14 @@ PHP 7.1 or higher
 ### Composer
 Install the library using [Composer](https://getcomposer.org)
 ```bash
-$ composer require pay-now/paynow-php-sdk nyholm/psr7 php-http/curl-client
+$ composer require pay-now/paynow-php-sdk
 ```
+
+also that you have to install HTTP client that implements PSR-17 and interface for PSR-7, for example you can use:
+```bash
+$ composer require nyholm/psr7 php-http/curl-client
+```
+
 and include composer autoloader
 ```php
 require_once('vendor/autoload.php');
