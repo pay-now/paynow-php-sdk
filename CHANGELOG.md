@@ -1,3 +1,7 @@
+## 2.0.1
+- Fixed PHP version in composer.json
+- Fixed typo in `Payment`
+
 ## 2.0.0
 - Introduced PSR-17 and PSR-18 to HTTP Client
 - Updated README

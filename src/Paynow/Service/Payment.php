@@ -21,7 +21,7 @@ class Payment extends Service
     public function authorize(array $data, $idempotencyKey = null): Authorize
     {
         try {
-            $decpdedApiResponse = $this->getClient()
+            $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
                     Configuration::API_VERSION . '/payments',
@@ -29,7 +29,7 @@ class Payment extends Service
                     $idempotencyKey ?? $data['externalId']
                 )
                 ->decode();
-            return new Authorize($decpdedApiResponse->redirectUrl, $decpdedApiResponse->paymentId, $decpdedApiResponse->status);
+            return new Authorize($decodedApiResponse->redirectUrl, $decodedApiResponse->paymentId, $decodedApiResponse->status);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
@@ -47,12 +47,12 @@ class Payment extends Service
     public function status(string $paymentId): Status
     {
         try {
-            $decpdedApiResponse = $this->getClient()
+            $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(Configuration::API_VERSION . "/payments/$paymentId/status")
                 ->decode();
 
-            return new Status($decpdedApiResponse->paymentId, $decpdedApiResponse->status);
+            return new Status($decodedApiResponse->paymentId, $decodedApiResponse->status);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
