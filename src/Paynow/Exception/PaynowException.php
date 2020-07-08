@@ -6,8 +6,8 @@ use Exception;
 
 class PaynowException extends Exception
 {
-    /** @var Error[]|null */
-    private $errors;
+    /** @var Error[] */
+    private $errors = [];
 
     public function __construct(string $message, int $code = 0, ?string $body = null)
     {
@@ -24,7 +24,7 @@ class PaynowException extends Exception
     }
 
     /**
-     * @return Error[]|null
+     * @return Error[]
      */
     public function getErrors(): array
     {
