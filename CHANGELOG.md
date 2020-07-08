@@ -1,3 +1,6 @@
+## 2.0.2
+- Initialize `$errors` in `PaynowException` as empty list
+
 ## 2.0.1
 - Fixed PHP version in composer.json
 - Fixed typo in `Payment`
