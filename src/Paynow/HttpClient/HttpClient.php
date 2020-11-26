@@ -137,7 +137,7 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * @param null|array $data
+     * @param null|array|string $data
      * @return array
      */
     private function prepareHeaders($data = null)
@@ -150,6 +150,9 @@ class HttpClient implements HttpClientInterface
 
         if ($data) {
             $headers['Content-Type'] = 'application/json';
+            if (is_array($data)) {
+                $data = $this->prepareData($data);
+            }
             $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), $data);
         }
 

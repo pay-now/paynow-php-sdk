@@ -1,3 +1,6 @@
+## 1.1.0
+- Fixed signature calculation with special chars
+
 ## 1.0.6
 - Marked `getErrorType` for `Error` as deprecated
 - Fixed hash calculation for slashed data
