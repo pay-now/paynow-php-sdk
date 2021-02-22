@@ -2,14 +2,12 @@
 
 namespace Paynow\Response\Refund;
 
-use Paynow\Model\Refund\Status;
-
-class RefundAccepted
+class Status
 {
     /** @var string */
     private $refundId;
 
-    /** @var Status|string */
+    /** @var string|Status */
     private $status;
 
     public function __construct($refundId, $status)
@@ -18,18 +16,14 @@ class RefundAccepted
         $this->status = $status;
     }
 
-    /**
-     * @return string
-     */
+    /** @return string */
     public function getRefundId(): string
     {
         return $this->refundId;
     }
 
-    /**
-     * @return Status|string
-     */
-    public function getStatus()
+    /** @return string */
+    public function getStatus(): string
     {
         return $this->status;
     }

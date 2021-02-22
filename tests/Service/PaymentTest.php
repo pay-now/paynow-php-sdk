@@ -51,7 +51,7 @@ class PaymentTest extends TestCase
     public function testShouldRetrievePaymentStatusSuccessfully()
     {
         // given
-        $this->testHttpClient->mockResponse('payment_status.json', 200);
+        $this->testHttpClient->mockResponse('payment_status_success.json', 200);
         $this->client->setHttpClient($this->testHttpClient);
         $paymentService = new Payment($this->client);
         $paymentId = 'PBYV-3AZ-UPW-DPC';
@@ -80,7 +80,7 @@ class PaymentTest extends TestCase
             $this->assertEquals(404, $exception->getCode());
             $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->getType());
             $this->assertEquals(
-                'Could not find status for payment {paymentId=PBYV-3AZ-UPW-DPCf}',
+                'Could not find status for payment {paymentId=PBYV-3AZ-UPW-DPC}',
                 $exception->getErrors()[0]->getMessage()
             );
         }

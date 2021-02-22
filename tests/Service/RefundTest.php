@@ -43,4 +43,42 @@ class RefundTest extends TestCase
             );
         }
     }
+
+    public function testShouldRetrieveRefundStatusSuccessfully()
+    {
+        // given
+        $this->testHttpClient->mockResponse('refund_status_success.json', 200);
+        $this->client->setHttpClient($this->testHttpClient);
+        $refundService = new Refund($this->client);
+        $refundId = 'R3FU-UND-D8K-WZD';
+
+        // when
+        $response = $refundService->status($refundId);
+
+        // then
+        $this->assertEquals($refundId, $response->getRefundId());
+        $this->assertEquals('NEW', $response->getStatus());
+    }
+
+    public function testShouldNotRetrievePaymentStatusSuccesfully()
+    {
+        // given
+        $this->testHttpClient->mockResponse('refund_status_not_found.json', 404);
+        $this->client->setHttpClient($this->testHttpClient);
+        $refundService = new Refund($this->client);
+        $refundId = 'R3FU-UND-D8K-WZD';
+
+        // when
+        try {
+            $response = $refundService->status($refundId);
+        } catch (PaynowException $exception) {
+            // then
+            $this->assertEquals(404, $exception->getCode());
+            $this->assertEquals('NOT_FOUND', $exception->getErrors()[0]->getType());
+            $this->assertEquals(
+                'Could not find status for refund {refundId=R3FU-UND-D8K-WZD}',
+                $exception->getErrors()[0]->getMessage()
+            );
+        }
+    }
 }
