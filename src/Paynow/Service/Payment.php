@@ -62,6 +62,8 @@ class Payment extends Service
     }
 
     /**
+     * Retrieve payment status
+     *
      * @param string $paymentId
      * @throws PaynowException
      * @return Status

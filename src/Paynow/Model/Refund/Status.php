@@ -4,9 +4,9 @@ namespace Paynow\Model\Refund;
 
 class Status
 {
-    public const STATUS_CANCELLED = 'CANCELLED';
-    public const STATUS_FAILED = 'FAILED';
-    public const STATUS_NEW = 'NEW';
-    public const STATUS_PENDING = 'PENDING';
-    public const STATUS_SUCCESSFUL = 'SUCCESSFUL';
+    public const CANCELLED = 'CANCELLED';
+    public const FAILED = 'FAILED';
+    public const NEW = 'NEW';
+    public const PENDING = 'PENDING';
+    public const SUCCESSFUL = 'SUCCESSFUL';
 }

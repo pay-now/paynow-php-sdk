@@ -3,7 +3,7 @@
   "errors": [
     {
       "errorType": "NOT_FOUND",
-      "message": "Could not find status for payment {paymentId=PBYV-3AZ-UPW-DPC}"
+      "message": "Could not find status for refund {refundId=R3FU-UND-D8K-WZD}"
     }
   ]
 }

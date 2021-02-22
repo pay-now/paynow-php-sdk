@@ -5,7 +5,7 @@ namespace Paynow\Service;
 use Paynow\Configuration;
 use Paynow\Exception\PaynowException;
 use Paynow\HttpClient\HttpClientException;
-use Paynow\Response\Refund\RefundAccepted;
+use Paynow\Response\Refund\Status;
 
 class Refund extends Service
 {
@@ -16,10 +16,10 @@ class Refund extends Service
      * @param null $idempotencyKey
      * @param null $amount
      * @param null $reason
-     * @return RefundAccepted
      * @throws PaynowException
+     * @return Status
      */
-    public function create(string $paymentId, $idempotencyKey = null, $amount = null, $reason = null): RefundAccepted
+    public function create(string $paymentId, $idempotencyKey = null, $amount = null, $reason = null): Status
     {
         try {
             $decodedApiResponse = $this->getClient()
@@ -33,7 +33,32 @@ class Refund extends Service
                     $idempotencyKey
                 )
                 ->decode();
-            return new RefundAccepted($decodedApiResponse->refundId, $decodedApiResponse->status);
+            return new Status($decodedApiResponse->refundId, $decodedApiResponse->status);
+        } catch (HttpClientException $exception) {
+            throw new PaynowException(
+                $exception->getMessage(),
+                $exception->getStatus(),
+                $exception->getBody()
+            );
+        }
+    }
+
+
+    /**
+     * Retrieve refund status
+     * @param $refundId
+     * @return Status
+     * @throws PaynowException
+     */
+    public function status($refundId): Status
+    {
+        try {
+            $decodedApiResponse = $this->getClient()
+                ->getHttpClient()
+                ->get(Configuration::API_VERSION . "/payments/$refundId/status")
+                ->decode();
+
+            return new Status($decodedApiResponse->refundId, $decodedApiResponse->status);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
