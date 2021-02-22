@@ -4,9 +4,9 @@ namespace Paynow\Model\Payment;
 
 class Status
 {
-    public const STATUS_NEW = 'NEW';
-    public const STATUS_PENDING = 'PENDING';
-    public const STATUS_REJECTED = 'REJECTED';
-    public const STATUS_CONFIRMED = 'CONFIRMED';
-    public const STATUS_ERROR = 'ERROR';
+    public const CONFIRMED = 'CONFIRMED';
+    public const ERROR = 'ERROR';
+    public const NEW = 'NEW';
+    public const PENDING = 'PENDING';
+    public const REJECTED = 'REJECTED';
 }
