@@ -43,7 +43,7 @@ class PaymentMethod
 
     public function getImage()
     {
-        return $this->description;
+        return $this->image;
     }
 
     public function getStatus()

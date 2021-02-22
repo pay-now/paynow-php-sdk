@@ -2,8 +2,8 @@
 
 namespace Paynow\Tests\Service;
 
+use Paynow\Model\PaymentMethods\Status;
 use Paynow\Model\PaymentMethods\Type;
-use Paynow\Response\PaymentMethods\PaymentMethods;
 use Paynow\Service\Payment;
 use Paynow\Tests\TestCase;
 
@@ -21,8 +21,12 @@ class PaymentMethodsTest extends TestCase
 
         // then
         $this->assertNotEmpty($paymentMethods);
-        $this->assertNotEmpty($paymentMethods[0]->getName());
+        $this->assertEquals('2007', $paymentMethods[0]->getId());
+        $this->assertEquals('BLIK', $paymentMethods[0]->getName());
+        $this->assertEquals('https://static.sandbox.paynow.pl/payment-method-icons/2007.png', $paymentMethods[0]->getImage());
+        $this->assertEquals('Płacę z Blikiem', $paymentMethods[0]->getDescription());
         $this->assertEquals(Type::BLIK, $paymentMethods[0]->getType());
+        $this->assertEquals(Status::ENABLED, $paymentMethods[0]->getStatus());
         $this->assertTrue($paymentMethods[0]->isEnabled());
     }
 

@@ -19,7 +19,7 @@ class PaymentMethods
                 if (! empty($group->paymentMethods)) {
                     foreach ($group->paymentMethods as $item) {
                         $this->list[] = new PaymentMethod(
-                            $item,
+                            $item->id,
                             $group->type,
                             $item->name,
                             $item->description,
