@@ -1,3 +1,7 @@
+## 2.1.0
+- Added payment's refund support
+- Added retrieve available payment methods
+
 ## 2.0.2
 - Initialize `$errors` in `PaynowException` as empty list
 
