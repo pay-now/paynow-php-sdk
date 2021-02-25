@@ -55,7 +55,7 @@ class Refund extends Service
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION . "/payments/$refundId/status")
+                ->get(Configuration::API_VERSION . "/refunds/$refundId/status")
                 ->decode();
 
             return new Status($decodedApiResponse->refundId, $decodedApiResponse->status);
