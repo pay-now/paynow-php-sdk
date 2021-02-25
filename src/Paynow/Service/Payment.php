@@ -7,6 +7,7 @@ use Paynow\Exception\PaynowException;
 use Paynow\HttpClient\HttpClientException;
 use Paynow\Response\Payment\Authorize;
 use Paynow\Response\Payment\Status;
+use Paynow\Response\PaymentMethods\PaymentMethods;
 
 class Payment extends Service
 {
@@ -30,6 +31,27 @@ class Payment extends Service
                 )
                 ->decode();
             return new Authorize($decodedApiResponse->redirectUrl, $decodedApiResponse->paymentId, $decodedApiResponse->status);
+        } catch (HttpClientException $exception) {
+            throw new PaynowException(
+                $exception->getMessage(),
+                $exception->getStatus(),
+                $exception->getBody()
+            );
+        }
+    }
+
+    /**
+     * @return PaymentMethods
+     * @throws PaynowException
+     */
+    public function getPaymentMethods()
+    {
+        try {
+            $decodedApiResponse = $this->getClient()
+                ->getHttpClient()
+                ->get(Configuration::API_VERSION . '/payments/paymentmethods')
+                ->decode();
+            return new PaymentMethods($decodedApiResponse);
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
