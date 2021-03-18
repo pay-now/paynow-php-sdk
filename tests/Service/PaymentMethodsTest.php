@@ -38,7 +38,7 @@ class PaymentMethodsTest extends TestCase
         $paymentService = new Payment($this->client);
 
         // when
-        $blikPaymentMethods = $paymentService->getPaymentMethods()->getOnlyBlik();
+        $blikPaymentMethods = $paymentService->getPaymentMethods("PLN")->getOnlyBlik();
 
         // then
         $this->assertNotEmpty($blikPaymentMethods);

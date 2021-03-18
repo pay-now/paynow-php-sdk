@@ -41,15 +41,16 @@ class Payment extends Service
     }
 
     /**
-     * @return PaymentMethods
+     * @param string $currency
      * @throws PaynowException
+     * @return PaymentMethods
      */
-    public function getPaymentMethods()
+    public function getPaymentMethods(string $currency = "")
     {
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION . '/payments/paymentmethods')
+                ->get(Configuration::API_VERSION . '/payments/paymentmethods' . (! empty($currency) ? '?currency=' . strtoupper($currency) : ''))
                 ->decode();
             return new PaymentMethods($decodedApiResponse);
         } catch (HttpClientException $exception) {
