@@ -105,7 +105,7 @@ $client = new Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
 
 try {
     $payment = new Payment($client);
-    $paymentMethods = $payment->getPaymentMethods('PLN');
+    $paymentMethods = $payment->getPaymentMethods('PLN', 100);
     $availablePaymentMethods = $paymentMethods->getAll();
 } catch (PaynowException $exception) {
     // catch errors
