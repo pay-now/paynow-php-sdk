@@ -42,12 +42,12 @@ $orderReference = "success_1234567";
 $idempotencyKey = uniqid($orderReference . '_');
 
 $paymentData = [
-    "amount" => "100",
-    "currency" => "PLN",
-    "externalId" => $orderReference,
-    "description" => "Payment description",
-    "buyer" => [
-        "email" => "customer@domain.com"
+    'amount' => '100',
+    'currency' => 'PLN',
+    'externalId' => $orderReference,
+    'description' => 'Payment description',
+    'buyer' => [
+        'email' => 'customer@domain.com'
     ]
 ];
 
@@ -88,7 +88,7 @@ $client = new Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
 
 try {
     $refund = new Refund($client);
-    $result = $refund->create("YXZA-123-ABC-A01", uniqid(), 100);
+    $result = $refund->create('YXZA-123-ABC-A01', uniqid(), 100);
 } catch (PaynowException $exception) {
     // catch errors
 }
@@ -105,7 +105,7 @@ $client = new Client('TestApiKey', 'TestSignatureKey', Environment::SANDBOX);
 
 try {
     $payment = new Payment($client);
-    $paymentMethods = $payment->getPaymentMethods();
+    $paymentMethods = $payment->getPaymentMethods('PLN');
     $availablePaymentMethods = $paymentMethods->getAll();
 } catch (PaynowException $exception) {
     // catch errors
