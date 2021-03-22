@@ -43,10 +43,10 @@ class Payment extends Service
     /**
      * Retrieve available payment methods
      *
-     * @param string|null $currency
-     * @param int|null $amount
-     * @return PaymentMethods
+     * @param string $currency
+     * @param int $amount
      * @throws PaynowException
+     * @return PaymentMethods
      */
     public function getPaymentMethods(?string $currency = null, ?int $amount = 0)
     {
