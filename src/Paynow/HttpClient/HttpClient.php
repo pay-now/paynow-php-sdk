@@ -124,13 +124,11 @@ class HttpClient implements HttpClientInterface
      * @return ApiResponse
      * @throws HttpClientException
      */
-    public function get(string $url, ?string $query = null): ApiResponse
+    public function get(string $url, string $query = null): ApiResponse
     {
         $request = $this->messageFactory->createRequest(
             'GET',
-            $this->url
-                ->withPath($url)
-                ->withQuery($query)
+            $query ? $this->url->withPath($url)->withQuery($query) : $this->url->withPath($url)
         );
 
         foreach ($this->prepareHeaders() as $name => $value) {
