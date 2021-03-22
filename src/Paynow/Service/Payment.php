@@ -41,15 +41,17 @@ class Payment extends Service
     }
 
     /**
-     * @param string $currency
-     * @param int $amount
+     * Retrieve available payment methods
+     *
+     * @param string|null $currency
+     * @param int|null $amount
      * @return PaymentMethods
      * @throws PaynowException
      */
-    public function getPaymentMethods(string $currency = "", int $amount = 0)
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0)
     {
         $parameters = [];
-        if (!empty($currency)) {
+        if (! empty($currency)) {
             $parameters['currency'] = $currency;
         }
 
@@ -60,7 +62,7 @@ class Payment extends Service
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION . '/payments/paymentmethods' . (!empty($parameters) ? '?' . http_build_query($parameters, '', '&') : ''))
+                ->get(Configuration::API_VERSION . '/payments/paymentmethods', http_build_query($parameters, '', '&'))
                 ->decode();
             return new PaymentMethods($decodedApiResponse);
         } catch (HttpClientException $exception) {
