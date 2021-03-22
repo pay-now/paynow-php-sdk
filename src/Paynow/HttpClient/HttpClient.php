@@ -124,7 +124,7 @@ class HttpClient implements HttpClientInterface
      * @return ApiResponse
      * @throws HttpClientException
      */
-    public function get(string $url, ?string $query): ApiResponse
+    public function get(string $url, ?string $query = null): ApiResponse
     {
         $request = $this->messageFactory->createRequest(
             'GET',
