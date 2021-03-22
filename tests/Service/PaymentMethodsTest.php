@@ -17,7 +17,7 @@ class PaymentMethodsTest extends TestCase
         $paymentService = new Payment($this->client);
 
         // when
-        $paymentMethods = $paymentService->getPaymentMethods()->getAll();
+        $paymentMethods = $paymentService->getPaymentMethods('PLN', 1000)->getAll();
 
         // then
         $this->assertNotEmpty($paymentMethods);

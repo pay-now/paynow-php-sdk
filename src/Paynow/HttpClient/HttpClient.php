@@ -70,8 +70,8 @@ class HttpClient implements HttpClientInterface
      * @param string $url
      * @param array $data
      * @param string|null $idempotencyKey
-     * @return ApiResponse
      * @throws HttpClientException
+     * @return ApiResponse
      */
     public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse
     {
@@ -120,14 +120,15 @@ class HttpClient implements HttpClientInterface
 
     /**
      * @param string $url
-     * @throws HttpClientException
+     * @param string|null $query
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function get(string $url): ApiResponse
+    public function get(string $url, string $query = null): ApiResponse
     {
         $request = $this->messageFactory->createRequest(
             'GET',
-            $this->url->withPath($url)
+            $query ? $this->url->withPath($url)->withQuery($query) : $this->url->withPath($url)
         );
 
         foreach ($this->prepareHeaders() as $name => $value) {
