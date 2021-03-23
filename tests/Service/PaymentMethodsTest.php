@@ -66,6 +66,23 @@ class PaymentMethodsTest extends TestCase
         $this->assertTrue($cardPaymentMethods[0]->isEnabled());
     }
 
+    public function testShouldRetrieveOnlyGooglePayPaymentMethodsListSuccessfully()
+    {
+        // given
+        $this->testHttpClient->mockResponse('payment_methods_success.json', 200);
+        $this->client->setHttpClient($this->testHttpClient);
+        $paymentService = new Payment($this->client);
+
+        // when
+        $cardPaymentMethods = $paymentService->getPaymentMethods()->getOnlyGooglePay();
+
+        // then
+        $this->assertNotEmpty($cardPaymentMethods);
+        $this->assertEquals(1, sizeof($cardPaymentMethods));
+        $this->assertEquals('Google Pay', $cardPaymentMethods[0]->getName());
+        $this->assertEquals(Type::GOOGLE_PAY, $cardPaymentMethods[0]->getType());
+        $this->assertTrue($cardPaymentMethods[0]->isEnabled());
+    }
 
     public function testShouldRetrieveOnlyPblPaymentMethodsListSuccessfully()
     {
