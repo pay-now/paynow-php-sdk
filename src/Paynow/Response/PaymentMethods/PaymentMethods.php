@@ -77,6 +77,23 @@ class PaymentMethods
     }
 
     /**
+     * Retrieve only GooglePay payment method
+     *
+     * @return PaymentMethod[]
+     */
+    public function getOnlyGooglePay()
+    {
+        $cardPaymentMethods = [];
+        foreach ($this->list as $item) {
+            if (Type::GOOGLE_PAY === $item->getType()) {
+                $cardPaymentMethods[] = $item;
+            }
+        }
+
+        return $cardPaymentMethods;
+    }
+
+    /**
      * Retrieve only Pbl payment methods
      *
      * @return array

@@ -24,6 +24,18 @@
     ]
   },
   {
+    "type": "GOOGLE_PAY",
+    "paymentMethods": [
+      {
+        "id": 2002,
+        "name": "Google Pay",
+        "description": "Google Pay",
+        "image": "https://static.sandbox.paynow.pl/payment-method-icons/2002.png",
+        "status": "ENABLED"
+      }
+    ]
+  },
+  {
     "type": "PBL",
     "paymentMethods": [
       {
