@@ -38,7 +38,8 @@ class Refund extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }
@@ -63,7 +64,8 @@ class Refund extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }

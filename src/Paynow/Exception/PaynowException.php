@@ -3,15 +3,23 @@
 namespace Paynow\Exception;
 
 use Exception;
+use Throwable;
 
 class PaynowException extends Exception
 {
     /** @var Error[] */
     private $errors = [];
 
-    public function __construct(string $message, int $code = 0, ?string $body = null)
+    /**
+     * PaynowException constructor.
+     * @param string $message
+     * @param int $code
+     * @param string|null $body
+     * @param Throwable|null $previous
+     */
+    public function __construct(string $message, int $code = 0, ?string $body = null, Throwable $previous = null)
     {
-        parent::__construct($message, $code, null);
+        parent::__construct($message, $code, $previous);
 
         if ($body) {
             $json = json_decode($body);

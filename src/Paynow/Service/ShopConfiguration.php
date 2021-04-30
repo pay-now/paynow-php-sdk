@@ -29,7 +29,8 @@ class ShopConfiguration extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }
