@@ -96,7 +96,7 @@ class PaymentMethods
     /**
      * Retrieve only Pbl payment methods
      *
-     * @return array
+     * @return PaymentMethod[]
      */
     public function getOnlyPbls()
     {

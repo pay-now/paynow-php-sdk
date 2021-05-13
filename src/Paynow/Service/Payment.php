@@ -15,11 +15,11 @@ class Payment extends Service
      * Authorize payment
      *
      * @param array $data
-     * @param string $idempotencyKey
+     * @param string|null $idempotencyKey
      * @throws PaynowException
      * @return Authorize
      */
-    public function authorize(array $data, $idempotencyKey = null): Authorize
+    public function authorize(array $data, ?string $idempotencyKey = null): Authorize
     {
         try {
             $decodedApiResponse = $this->getClient()
@@ -35,7 +35,8 @@ class Payment extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }
@@ -45,8 +46,8 @@ class Payment extends Service
      *
      * @param string|null $currency
      * @param int|null $amount
-     * @return PaymentMethods
      * @throws PaynowException
+     * @return PaymentMethods
      */
     public function getPaymentMethods(?string $currency = null, ?int $amount = 0)
     {
@@ -69,7 +70,8 @@ class Payment extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }
@@ -94,7 +96,8 @@ class Payment extends Service
             throw new PaynowException(
                 $exception->getMessage(),
                 $exception->getStatus(),
-                $exception->getBody()
+                $exception->getBody(),
+                $exception
             );
         }
     }
