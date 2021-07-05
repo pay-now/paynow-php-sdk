@@ -1,3 +1,6 @@
+## 2.1.2
+- Added PSR17 client discovery support
+
 ## 2.1.1
 - Added filters to retrieve payment methods
 - Added Google Pay to payment method types
