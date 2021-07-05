@@ -2,6 +2,8 @@
 
 namespace Paynow\HttpClient;
 
+use Http\Discovery\Exception\NotFoundException;
+use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Discovery\Psr18ClientDiscovery;
 use Paynow\Configuration;
@@ -36,7 +38,11 @@ class HttpClient implements HttpClientInterface
         $this->config = $config;
         $this->messageFactory = Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = Psr17FactoryDiscovery::findStreamFactory();
-        $this->client = Psr18ClientDiscovery::find();
+        try {
+            $this->client = Psr18ClientDiscovery::find();
+        } catch (NotFoundException $exception) {
+            $this->client = HttpClientDiscovery::find();
+        }
         $this->url = Psr17FactoryDiscovery::findUrlFactory()->createUri((string)$config->getUrl());
     }
 
