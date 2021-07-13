@@ -1,3 +1,6 @@
+## 2.1.3
+- Added new statuses for payment
+
 ## 2.1.2
 - Added PSR17 client discovery support
 
