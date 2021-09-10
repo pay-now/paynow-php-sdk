@@ -1,6 +1,6 @@
 # Paynow PHP SDK
 
-[![Build Status](https://travis-ci.com/pay-now/paynow-php-sdk.svg?branch=master)](https://travis-ci.com/pay-now/paynow-php-sdk)
+[![Build Status](https://app.travis-ci.com/pay-now/paynow-php-sdk.svg?branch=master)](https://travis-ci.com/pay-now/paynow-php-sdk)
 [![Latest Version](https://img.shields.io/github/release/pay-now/paynow-php-sdk.svg)](https://github.com/pay-now/paynow-php-sdk/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![Total Downloads](https://img.shields.io/packagist/dt/pay-now/paynow-php-sdk)](https://packagist.org/packages/pay-now/paynow-php-sdk)
