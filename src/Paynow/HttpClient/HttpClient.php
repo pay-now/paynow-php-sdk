@@ -127,8 +127,8 @@ class HttpClient implements HttpClientInterface
     /**
      * @param string $url
      * @param string|null $query
-     * @return ApiResponse
      * @throws HttpClientException
+     * @return ApiResponse
      */
     public function get(string $url, string $query = null): ApiResponse
     {

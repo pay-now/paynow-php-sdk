@@ -10,8 +10,9 @@ class PaymentMethod
     private $description;
     private $image;
     private $status;
+    private $authorizationType;
 
-    public function __construct($id, $type, $name, $description, $image, $status)
+    public function __construct($id, $type, $name, $description, $image, $status, $authorizationType)
     {
         $this->id = $id;
         $this->type = $type;
@@ -19,6 +20,7 @@ class PaymentMethod
         $this->description = $description;
         $this->image = $image;
         $this->status = $status;
+        $this->authorizationType = $authorizationType;
     }
 
     public function getId()
@@ -54,5 +56,10 @@ class PaymentMethod
     public function isEnabled()
     {
         return $this->status == Status::ENABLED;
+    }
+
+    public function getAuthorizationCode()
+    {
+        return $this->authorizationType;
     }
 }

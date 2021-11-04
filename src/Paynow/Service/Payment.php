@@ -30,7 +30,12 @@ class Payment extends Service
                     $idempotencyKey ?? $data['externalId']
                 )
                 ->decode();
-            return new Authorize($decodedApiResponse->redirectUrl, $decodedApiResponse->paymentId, $decodedApiResponse->status);
+
+            return new Authorize(
+                $decodedApiResponse->paymentId,
+                $decodedApiResponse->status,
+                ! empty($decodedApiResponse->redirectUrl) ? $decodedApiResponse->redirectUrl : null
+            );
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
@@ -49,7 +54,7 @@ class Payment extends Service
      * @throws PaynowException
      * @return PaymentMethods
      */
-    public function getPaymentMethods(?string $currency = null, ?int $amount = 0)
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ? bool $whiteLabel = false)
     {
         $parameters = [];
         if (! empty($currency)) {
@@ -60,10 +65,14 @@ class Payment extends Service
             $parameters['amount'] = $amount;
         }
 
+        if ($whiteLabel) {
+            $parameters['whiteLabel'] = $whiteLabel;
+        }
+
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION . '/payments/paymentmethods', http_build_query($parameters, '', '&'))
+                ->get(Configuration::API_VERSION_V2 . '/payments/paymentmethods', http_build_query($parameters, '', '&'))
                 ->decode();
             return new PaymentMethods($decodedApiResponse);
         } catch (HttpClientException $exception) {

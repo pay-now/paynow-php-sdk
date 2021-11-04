@@ -2,6 +2,7 @@
 
 namespace Paynow\Tests\Service;
 
+use Paynow\Model\PaymentMethods\AuthorizationType;
 use Paynow\Model\PaymentMethods\Status;
 use Paynow\Model\PaymentMethods\Type;
 use Paynow\Service\Payment;
@@ -27,6 +28,29 @@ class PaymentMethodsTest extends TestCase
         $this->assertEquals('Płacę z Blikiem', $paymentMethods[0]->getDescription());
         $this->assertEquals(Type::BLIK, $paymentMethods[0]->getType());
         $this->assertEquals(Status::ENABLED, $paymentMethods[0]->getStatus());
+        $this->assertTrue($paymentMethods[0]->isEnabled());
+    }
+
+    public function testShouldRetrieveAllPaymentMethodsListSuccessfullyForWhiteLabel()
+    {
+        // given
+        $this->testHttpClient->mockResponse('payment_methods_white_label_success.json', 200);
+        $this->client->setHttpClient($this->testHttpClient);
+        $paymentService = new Payment($this->client);
+
+        // when
+        $paymentMethods = $paymentService->getPaymentMethods('PLN', 1000, true)->getAll();
+
+        // then
+        $this->assertNotEmpty($paymentMethods);
+        $this->assertEquals('2007', $paymentMethods[0]->getId());
+        $this->assertEquals('BLIK', $paymentMethods[0]->getName());
+        $this->assertEquals('https://static.sandbox.paynow.pl/payment-method-icons/2007.png', $paymentMethods[0]->getImage());
+        $this->assertEquals(Status::ENABLED, $paymentMethods[0]->getStatus());
+        $this->assertEquals('Płacę z Blikiem', $paymentMethods[0]->getDescription());
+        $this->assertEquals(Type::BLIK, $paymentMethods[0]->getType());
+        $this->assertEquals(Status::ENABLED, $paymentMethods[0]->getStatus());
+        $this->assertEquals(AuthorizationType::CODE, $paymentMethods[0]->getAuthorizationCode());
         $this->assertTrue($paymentMethods[0]->isEnabled());
     }
 

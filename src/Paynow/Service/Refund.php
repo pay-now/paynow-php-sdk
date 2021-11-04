@@ -48,8 +48,8 @@ class Refund extends Service
     /**
      * Retrieve refund status
      * @param $refundId
-     * @return Status
      * @throws PaynowException
+     * @return Status
      */
     public function status($refundId): Status
     {

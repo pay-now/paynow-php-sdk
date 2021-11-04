@@ -24,7 +24,8 @@ class PaymentMethods
                             $item->name,
                             $item->description,
                             $item->image,
-                            $item->status
+                            $item->status,
+                            $item->authorizationType
                         );
                     }
                 }
@@ -50,7 +51,7 @@ class PaymentMethods
     public function getOnlyBlik()
     {
         $blikPaymentMethods = [];
-        if ( ! empty($this->list)) {
+        if (! empty($this->list)) {
             foreach ($this->list as $item) {
                 if (Type::BLIK === $item->getType()) {
                     $blikPaymentMethods[] = $item;
@@ -69,7 +70,7 @@ class PaymentMethods
     public function getOnlyCards()
     {
         $cardPaymentMethods = [];
-        if ( ! empty($this->list)) {
+        if (! empty($this->list)) {
             foreach ($this->list as $item) {
                 if (Type::CARD === $item->getType()) {
                     $cardPaymentMethods[] = $item;
@@ -88,7 +89,7 @@ class PaymentMethods
     public function getOnlyGooglePay()
     {
         $cardPaymentMethods = [];
-        if ( ! empty($this->list)) {
+        if (! empty($this->list)) {
             foreach ($this->list as $item) {
                 if (Type::GOOGLE_PAY === $item->getType()) {
                     $cardPaymentMethods[] = $item;
@@ -107,7 +108,7 @@ class PaymentMethods
     public function getOnlyPbls()
     {
         $pblPaymentMethods = [];
-        if ( ! empty($this->list)) {
+        if (! empty($this->list)) {
             foreach ($this->list as $item) {
                 if (Type::PBL === $item->getType()) {
                     $pblPaymentMethods[] = $item;
