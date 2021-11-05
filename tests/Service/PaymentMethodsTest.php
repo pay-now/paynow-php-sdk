@@ -50,7 +50,7 @@ class PaymentMethodsTest extends TestCase
         $this->assertEquals('Płacę z Blikiem', $paymentMethods[0]->getDescription());
         $this->assertEquals(Type::BLIK, $paymentMethods[0]->getType());
         $this->assertEquals(Status::ENABLED, $paymentMethods[0]->getStatus());
-        $this->assertEquals(AuthorizationType::CODE, $paymentMethods[0]->getAuthorizationCode());
+        $this->assertEquals(AuthorizationType::CODE, $paymentMethods[0]->getAuthorizationType());
         $this->assertTrue($paymentMethods[0]->isEnabled());
     }
 

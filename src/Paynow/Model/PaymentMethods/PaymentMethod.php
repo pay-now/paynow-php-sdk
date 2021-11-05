@@ -58,7 +58,7 @@ class PaymentMethod
         return $this->status == Status::ENABLED;
     }
 
-    public function getAuthorizationCode()
+    public function getAuthorizationType()
     {
         return $this->authorizationType;
     }
