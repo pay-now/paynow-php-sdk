@@ -25,7 +25,7 @@ class PaymentMethods
                             $item->description,
                             $item->image,
                             $item->status,
-                            $item->authorizationType
+                            $item->authorizationType ?? null
                         );
                     }
                 }

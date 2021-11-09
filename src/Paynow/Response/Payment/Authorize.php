@@ -22,8 +22,10 @@ class Authorize
         $this->redirectUrl = $redirectUrl;
     }
 
-    /** @return string */
-    public function getRedirectUrl(): string
+    /**
+     * @return string|null
+     */
+    public function getRedirectUrl(): ?string
     {
         return $this->redirectUrl;
     }

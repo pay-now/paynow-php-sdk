@@ -53,7 +53,10 @@ class PaymentMethod
         return $this->status;
     }
 
-    public function isEnabled()
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
     {
         return $this->status == Status::ENABLED;
     }
