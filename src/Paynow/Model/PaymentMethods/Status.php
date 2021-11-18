@@ -4,6 +4,6 @@ namespace Paynow\Model\PaymentMethods;
 
 class Status
 {
-    public const ENABLED = 'ENABLED';
     public const DISABLED = 'DISABLED';
+    public const ENABLED = 'ENABLED';
 }

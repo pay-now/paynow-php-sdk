@@ -2,28 +2,30 @@
 
 namespace Paynow\Response\Payment;
 
-use \Paynow\Model\Payment\Status;
+use Paynow\Model\Payment\Status;
 
 class Authorize
 {
-    /** @var string */
-    private $redirectUrl;
-
     /** @var string */
     private $paymentId;
 
     /** @var Status|string */
     private $status;
 
-    public function __construct($redirectUrl, $paymentId, $status)
+    /** @var null|string */
+    private $redirectUrl;
+
+    public function __construct($paymentId, $status, ?string $redirectUrl = null)
     {
-        $this->redirectUrl = $redirectUrl;
         $this->paymentId = $paymentId;
         $this->status = $status;
+        $this->redirectUrl = $redirectUrl;
     }
 
-    /** @return string */
-    public function getRedirectUrl(): string
+    /**
+     * @return string|null
+     */
+    public function getRedirectUrl(): ?string
     {
         return $this->redirectUrl;
     }
