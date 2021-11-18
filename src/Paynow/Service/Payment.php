@@ -51,12 +51,11 @@ class Payment extends Service
      *
      * @param string|null $currency
      * @param int|null $amount
-     * @param bool|null $whiteLabel
      *
      * @return PaymentMethods
      * @throws PaynowException
      */
-    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ? bool $whiteLabel = false)
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0): PaymentMethods
     {
         $parameters = [];
         if (! empty($currency)) {
@@ -65,10 +64,6 @@ class Payment extends Service
 
         if ($amount > 0) {
             $parameters['amount'] = $amount;
-        }
-
-        if ($whiteLabel) {
-            $parameters['whiteLabel'] = $whiteLabel;
         }
 
         try {

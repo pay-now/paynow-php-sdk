@@ -1,3 +1,10 @@
+## 2.2.0
+- Added v2 support for payment methods API
+- Added support for GDPR clauses
+
+**Breaking Changes:**
+- Optional redirectUrl for Authorize
+
 ## 2.1.4
 - Added abandoned status for payment
 
