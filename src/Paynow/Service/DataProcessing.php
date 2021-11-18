@@ -14,21 +14,23 @@ class DataProcessing extends Service
      *
      * @param string|null $locale
      *
-     * @return Notices
      * @throws PaynowException
+     * @return Notices
      */
     public function getNotices(?string $locale): Notices
     {
         $parameters = [];
-        if ( ! empty($locale)) {
+        if (! empty($locale)) {
             $parameters['locale'] = $locale;
         }
 
         try {
             $decodedApiResponse = $this->getClient()
                                        ->getHttpClient()
-                                       ->get(Configuration::API_VERSION . "/payments/dataprocessing/notices",
-                                           http_build_query($parameters, '', '&'))
+                                       ->get(
+                                           Configuration::API_VERSION . "/payments/dataprocessing/notices",
+                                           http_build_query($parameters, '', '&')
+                                       )
                                        ->decode();
 
             return new Notices($decodedApiResponse);

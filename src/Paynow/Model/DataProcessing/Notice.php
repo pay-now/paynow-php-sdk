@@ -20,9 +20,9 @@ class Notice
 
     public function __construct($title, $content, $locale)
     {
-        $this->title   = $title;
+        $this->title = $title;
         $this->content = $content;
-        $this->locale  = $locale;
+        $this->locale = $locale;
     }
 
     /**

@@ -13,7 +13,7 @@ class Notices
 
     public function __construct($body)
     {
-        if ( ! empty($body)) {
+        if (! empty($body)) {
             foreach ($body as $item) {
                 $this->list[] = new Notice(
                     $item->title,

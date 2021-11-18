@@ -51,12 +51,11 @@ class Payment extends Service
      *
      * @param string|null $currency
      * @param int|null $amount
-     * @param bool|null $whiteLabel
      *
-     * @return PaymentMethods
      * @throws PaynowException
+     * @return PaymentMethods
      */
-    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ? bool $whiteLabel = false)
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0): PaymentMethods
     {
         $parameters = [];
         if (! empty($currency)) {
@@ -67,15 +66,13 @@ class Payment extends Service
             $parameters['amount'] = $amount;
         }
 
-        if ($whiteLabel) {
-            $parameters['whiteLabel'] = $whiteLabel;
-        }
-
         try {
             $decodedApiResponse = $this->getClient()
                                        ->getHttpClient()
-                                       ->get(Configuration::API_VERSION_V2 . '/payments/paymentmethods',
-                                           http_build_query($parameters, '', '&'))
+                                       ->get(
+                                           Configuration::API_VERSION_V2 . '/payments/paymentmethods',
+                                           http_build_query($parameters, '', '&')
+                                       )
                                        ->decode();
             return new PaymentMethods($decodedApiResponse);
         } catch (HttpClientException $exception) {
