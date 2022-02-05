@@ -25,7 +25,7 @@ class Payment extends Service
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    Configuration::API_VERSION . '/payments',
+                    '/' . Configuration::API_VERSION . '/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
                 )

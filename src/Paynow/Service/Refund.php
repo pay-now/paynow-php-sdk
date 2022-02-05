@@ -13,19 +13,19 @@ class Refund extends Service
      * Refund payment
      *
      * @param string $paymentId
-     * @param null $idempotencyKey
-     * @param null $amount
+     * @param string $idempotencyKey
+     * @param int $amount
      * @param null $reason
      * @throws PaynowException
      * @return Status
      */
-    public function create(string $paymentId, $idempotencyKey = null, $amount = null, $reason = null): Status
+    public function create(string $paymentId, string $idempotencyKey, int $amount, $reason = null): Status
     {
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    Configuration::API_VERSION . '/payments/' . $paymentId . '/refunds',
+                    '/' . Configuration::API_VERSION . '/payments/' . $paymentId . '/refunds',
                     [
                         'amount' => $amount,
                         'reason' => $reason
@@ -43,7 +43,6 @@ class Refund extends Service
             );
         }
     }
-
 
     /**
      * Retrieve refund status
