@@ -24,7 +24,10 @@ class ShopConfiguration extends Service
         try {
             return $this->getClient()
                 ->getHttpClient()
-                ->patch(Configuration::API_VERSION.'/configuration/shop/urls', $data);
+                ->patch(
+                    '/' . Configuration::API_VERSION.'/configuration/shop/urls',
+                    $data
+                );
         } catch (HttpClientException $exception) {
             throw new PaynowException(
                 $exception->getMessage(),
