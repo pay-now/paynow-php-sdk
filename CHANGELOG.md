@@ -1,3 +1,7 @@
+## 2.2.1
+- Removed trailing slash from environment urls
+- Added slash on first position to service urls
+
 ## 2.2.0
 - Added v2 support for payment methods API
 - Added support for GDPR clauses
