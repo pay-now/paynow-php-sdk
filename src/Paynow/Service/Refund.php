@@ -25,7 +25,7 @@ class Refund extends Service
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    '/' . Configuration::API_VERSION . '/payments/' . $paymentId . '/refunds',
+                    Configuration::API_VERSION . '/payments/' . $paymentId . '/refunds',
                     [
                         'amount' => $amount,
                         'reason' => $reason
