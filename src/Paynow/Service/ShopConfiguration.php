@@ -25,7 +25,7 @@ class ShopConfiguration extends Service
             return $this->getClient()
                 ->getHttpClient()
                 ->patch(
-                    '/' . Configuration::API_VERSION.'/configuration/shop/urls',
+                     Configuration::API_VERSION.'/configuration/shop/urls',
                     $data
                 );
         } catch (HttpClientException $exception) {
