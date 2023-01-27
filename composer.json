@@ -52,5 +52,10 @@
     "test": "vendor/bin/phpunit",
     "cs-check": "php-cs-fixer fix --no-interaction --dry-run --diff",
     "cs-fix": "php-cs-fixer fix -v --diff"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
