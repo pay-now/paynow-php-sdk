@@ -64,7 +64,7 @@ class PaymentTest extends TestCase
         $this->assertEquals('NEW', $response->getStatus());
     }
 
-    public function testShouldNotRetrievePaymentStatusSuccesfully()
+    public function testShouldNotRetrievePaymentStatusSuccessfully()
     {
         // given
         $this->testHttpClient->mockResponse('payment_status_not_found.json', 404);
@@ -85,4 +85,15 @@ class PaymentTest extends TestCase
             );
         }
     }
+
+	public function testShouldThrowExceptionOnMissingPaymentIdDuringPaymentStatusCheck()
+	{
+		// given
+		$this->expectException(\InvalidArgumentException::class);
+
+		$paymentService = new Payment($this->client);
+
+		// when
+		$paymentService->status("");
+	}
 }

@@ -53,6 +53,21 @@ class NotificationTest extends TestCase
         // then
     }
 
+
+
+	public function testShouldThrowExceptionOnMissingSignature()
+	{
+		// given
+		$this->expectException(SignatureVerificationException::class);
+		$payload = $this->loadData('notification.json', true);
+		$headers = ['test' => 'test'];
+
+		// when
+		new Notification('s3ecret-k3y', $payload, $headers);
+
+		// then
+	}
+
     public function testShouldThrowExceptionOnMissingPayload()
     {
         // given

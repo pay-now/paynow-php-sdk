@@ -2,6 +2,7 @@
 
 namespace Paynow\Service;
 
+use InvalidArgumentException;
 use Paynow\Configuration;
 use Paynow\Exception\PaynowException;
 use Paynow\HttpClient\HttpClientException;
@@ -47,11 +48,16 @@ class Refund extends Service
     /**
      * Retrieve refund status
      * @param $refundId
+     * @throws InvalidArgumentException
      * @throws PaynowException
      * @return Status
      */
     public function status($refundId): Status
     {
+        if (empty($refundId)) {
+            throw new InvalidArgumentException("Empty refundId parameter");
+        }
+
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
