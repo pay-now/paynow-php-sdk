@@ -22,10 +22,14 @@ class Payment extends Service
     public function authorize(array $data, ?string $idempotencyKey = null): Authorize
     {
         try {
+            $apiVersion = Configuration::API_VERSION;
+            if ($data['buyer'][['externalId']]){
+                $apiVersion = Configuration::API_VERSION_V3;
+            }
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    '/' . Configuration::API_VERSION . '/payments',
+                    '/' . $apiVersion. '/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
                 )
