@@ -4,9 +4,9 @@ namespace Paynow\HttpClient;
 
 interface HttpClientInterface
 {
-    public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse;
+    public function post(string $url, array $data, string $idempotencyKey): ApiResponse;
 
-    public function patch(string $url, array $data): ApiResponse;
+    public function patch(string $url, array $data, string $idempotencyKey): ApiResponse;
 
-    public function get(string $url, ?string $query = null): ApiResponse;
+    public function get(string $url, string $idempotencyKey, ?string $query = null): ApiResponse;
 }

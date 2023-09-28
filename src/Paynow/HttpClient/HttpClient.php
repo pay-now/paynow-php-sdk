@@ -60,8 +60,8 @@ class HttpClient implements HttpClientInterface
 
     /**
      * @param RequestInterface $request
-     * @throws HttpClientException
      * @return ApiResponse
+     * @throws HttpClientException
      */
     private function send(RequestInterface $request): ApiResponse
     {
@@ -75,13 +75,13 @@ class HttpClient implements HttpClientInterface
     /**
      * @param string $url
      * @param array $data
-     * @param string|null $idempotencyKey
-     * @throws HttpClientException
+     * @param string $idempotencyKey
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse
+    public function post(string $url, array $data, string $idempotencyKey): ApiResponse
     {
-        $headers = $this->prepareHeaders($data);
+        $headers = $this->prepareHeaders($idempotencyKey, $data);
 
         if ($idempotencyKey) {
             $headers['Idempotency-Key'] = $idempotencyKey;
@@ -104,12 +104,13 @@ class HttpClient implements HttpClientInterface
     /**
      * @param string $url
      * @param array $data
-     * @throws HttpClientException
+     * @param string $idempotencyKey
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function patch(string $url, array $data): ApiResponse
+    public function patch(string $url, array $data, string $idempotencyKey): ApiResponse
     {
-        $headers = $this->prepareHeaders($data);
+        $headers = $this->prepareHeaders($idempotencyKey, $data);
         $request = $this->messageFactory->createRequest(
             'PATCH',
             $this->url->withPath($url)
@@ -126,18 +127,22 @@ class HttpClient implements HttpClientInterface
 
     /**
      * @param string $url
+     * @param string $idempotencyKey
      * @param string|null $query
-     * @throws HttpClientException
      * @return ApiResponse
+     * @throws HttpClientException
      */
-    public function get(string $url, string $query = null): ApiResponse
+    public function get(string $url, string $idempotencyKey, ?string $query = null): ApiResponse
     {
         $request = $this->messageFactory->createRequest(
             'GET',
             $query ? $this->url->withPath($url)->withQuery($query) : $this->url->withPath($url)
         );
 
-        foreach ($this->prepareHeaders() as $name => $value) {
+        $parameters = [];
+        parse_str(urldecode($query), $parameters);
+
+        foreach ($this->prepareHeaders($idempotencyKey, null, $parameters) as $name => $value) {
             $request = $request->withHeader($name, $value);
         }
 
@@ -154,20 +159,27 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * @param null|array $data
+     * @param string $idempotencyKey
+     * @param array|null $data
+     * @param array $parameters
      * @return array
      */
-    private function prepareHeaders(?array $data = null)
+    private function prepareHeaders(string $idempotencyKey = '', ?array $data = null, array $parameters = []): array
     {
         $headers = [
             'Api-Key' => $this->config->getApiKey(),
             'User-Agent' => $this->getUserAgent(),
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
+            'Signature' => (string)new SignatureCalculator(
+                $this->config->getApiKey(),
+                $idempotencyKey,
+                json_encode($data ?? ''),
+                $parameters
+            )
         ];
 
-        if ($data) {
+        if (!is_null($data)) {
             $headers['Content-Type'] = 'application/json';
-            $headers['Signature'] = (string)new SignatureCalculator($this->config->getSignatureKey(), json_encode($data));
         }
 
         return $headers;

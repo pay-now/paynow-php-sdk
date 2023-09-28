@@ -13,25 +13,26 @@ class DataProcessing extends Service
      * Retrieve data processing notice
      *
      * @param string|null $locale
-     *
-     * @throws PaynowException
+     * @param string|null $idempotencyKey
      * @return Notices
+     * @throws PaynowException
      */
-    public function getNotices(?string $locale): Notices
+    public function getNotices(?string $locale, ?string $idempotencyKey = null): Notices
     {
         $parameters = [];
-        if (! empty($locale)) {
+        if (!empty($locale)) {
             $parameters['locale'] = $locale;
         }
 
         try {
             $decodedApiResponse = $this->getClient()
-                                       ->getHttpClient()
-                                       ->get(
-                                           Configuration::API_VERSION . "/payments/dataprocessing/notices",
-                                           http_build_query($parameters, '', '&')
-                                       )
-                                       ->decode();
+                ->getHttpClient()
+                ->get(
+                    Configuration::API_VERSION . "/payments/dataprocessing/notices",
+                    $idempotencyKey ?? md5(($locale ?? '') . '_' . $this->getClient()->getConfiguration()->getApiKey()),
+                    http_build_query($parameters, '', '&')
+                )
+                ->decode();
 
             return new Notices($decodedApiResponse);
         } catch (HttpClientException $exception) {

@@ -16,8 +16,8 @@ class Refund extends Service
      * @param string $idempotencyKey
      * @param int $amount
      * @param null $reason
-     * @throws PaynowException
      * @return Status
+     * @throws PaynowException
      */
     public function create(string $paymentId, string $idempotencyKey, int $amount, $reason = null): Status
     {
@@ -45,17 +45,21 @@ class Refund extends Service
     }
 
     /**
-     * Retrieve refund status
      * @param $refundId
-     * @throws PaynowException
+     * @param string|null $idempotencyKey
      * @return Status
+     * @throws PaynowException
      */
-    public function status($refundId): Status
+    public function status($refundId, ?string $idempotencyKey = null): Status
     {
         try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
-                ->get(Configuration::API_VERSION . "/refunds/$refundId/status")
+                ->get(
+                    Configuration::API_VERSION . "/refunds/$refundId/status",
+                    $idempotencyKey ?? $refundId,
+                    $refundId
+                )
                 ->decode();
 
             return new Status($decodedApiResponse->refundId, $decodedApiResponse->status);
