@@ -16,18 +16,23 @@ class Client
      * @param string $apiSignatureKey
      * @param string $environment
      * @param string|null $applicationName
+     * @param string|null $apiVersion
      */
     public function __construct(
         string $apiKey,
         string $apiSignatureKey,
         string $environment,
-        ?string $applicationName = null
+        ?string $applicationName = null,
+        ?string $apiVersion = null
     ) {
         $this->configuration = new Configuration();
         $this->configuration->setApiKey($apiKey);
         $this->configuration->setSignatureKey($apiSignatureKey);
         $this->configuration->setEnvironment($environment);
         $this->configuration->setApplicationName($applicationName);
+        if (in_array($apiVersion, Configuration::AVAILABLE_API_VERSIONS)) {
+            $this->configuration->setApiVersion($apiVersion);
+        }
         $this->httpClient = new HttpClient($this->configuration);
     }
 

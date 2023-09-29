@@ -22,10 +22,12 @@ class Payment extends Service
     public function authorize(array $data, ?string $idempotencyKey = null): Authorize
     {
         try {
+            $apiVersion = $this->getClient()->getConfiguration()->getApiVersion() ?? Configuration::API_VERSION;
+
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    '/' . Configuration::API_VERSION . '/payments',
+                    '/' . $apiVersion. '/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
                 )
@@ -67,10 +69,12 @@ class Payment extends Service
         }
 
         try {
+            $apiVersion = $this->getClient()->getConfiguration()->getApiVersion() ?? Configuration::API_VERSION_V2;
+
             $decodedApiResponse = $this->getClient()
                                        ->getHttpClient()
                                        ->get(
-                                           Configuration::API_VERSION_V2 . '/payments/paymentmethods',
+                                           $apiVersion . '/payments/paymentmethods',
                                            http_build_query($parameters, '', '&')
                                        )
                                        ->decode();
