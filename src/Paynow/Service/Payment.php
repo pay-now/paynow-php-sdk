@@ -22,12 +22,10 @@ class Payment extends Service
     public function authorize(array $data, ?string $idempotencyKey = null): Authorize
     {
         try {
-            $apiVersion = $this->getClient()->getConfiguration()->getApiVersion() ?? Configuration::API_VERSION;
-
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    '/' . $apiVersion. '/payments',
+                    '/' . $this->getApiVersion(Configuration::API_VERSION) . '/payments',
                     $data,
                     $idempotencyKey ?? $data['externalId']
                 )
@@ -54,29 +52,33 @@ class Payment extends Service
      * @param string|null $currency
      * @param int|null $amount
      * @param string|null $idempotencyKey
+     * @param string|null $buyerExternalId
      * @return PaymentMethods
      * @throws PaynowException
      */
-    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ?string $idempotencyKey = null): PaymentMethods
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ?string $idempotencyKey = null, ?string $buyerExternalId = null): PaymentMethods
     {
         $parameters = [];
-        if (!empty($currency)) {
-            $parameters['currency'] = $currency;
-        }
 
         if ($amount > 0) {
             $parameters['amount'] = $amount;
         }
 
-        try {
-            $apiVersion = $this->getClient()->getConfiguration()->getApiVersion() ?? Configuration::API_VERSION_V2;
+        if (!empty($buyerExternalId)) {
+            $parameters['buyerExternalId'] = $buyerExternalId;
+        }
 
+        if (!empty($currency)) {
+            $parameters['currency'] = $currency;
+        }
+
+        try {
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(
-                    $apiVersion . '/payments/paymentmethods',
-                    http_build_query($parameters, '', '&'),
-                    $idempotencyKey ?? md5($currency . '_' . $amount . '_' . $this->getClient()->getConfiguration()->getApiKey())
+                    $this->getApiVersion(Configuration::API_VERSION_V2) . '/payments/paymentmethods',
+                    $idempotencyKey ?? md5($currency . '_' . $amount . '_' . $this->getClient()->getConfiguration()->getApiKey()),
+                    http_build_query($parameters, '', '&')
                 )
                 ->decode();
             return new PaymentMethods($decodedApiResponse);
@@ -104,7 +106,7 @@ class Payment extends Service
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(
-                    Configuration::API_VERSION . "/payments/$paymentId/status",
+                    $this->getApiVersion(Configuration::API_VERSION) . "/payments/$paymentId/status",
                     $idempotencyKey ?? $paymentId
                 )
                 ->decode();

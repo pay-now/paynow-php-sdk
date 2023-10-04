@@ -83,10 +83,6 @@ class HttpClient implements HttpClientInterface
     {
         $headers = $this->prepareHeaders($idempotencyKey, $data);
 
-        if ($idempotencyKey) {
-            $headers['Idempotency-Key'] = $idempotencyKey;
-        }
-
         $request = $this->messageFactory->createRequest(
             'POST',
             $this->url->withPath($url)
@@ -170,10 +166,12 @@ class HttpClient implements HttpClientInterface
             'Api-Key' => $this->config->getApiKey(),
             'User-Agent' => $this->getUserAgent(),
             'Accept' => 'application/json',
+            'Idempotency-Key' => $idempotencyKey,
             'Signature' => (string)new SignatureCalculator(
                 $this->config->getApiKey(),
+                $this->config->getSignatureKey(),
                 $idempotencyKey,
-                json_encode($data ?? ''),
+                $data ? json_encode($data) : '',
                 $parameters
             )
         ];

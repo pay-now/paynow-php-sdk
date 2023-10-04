@@ -11,11 +11,12 @@ class SignatureCalculator
 
     /**
      * @param string $apiKey
+     * @param string $signatureKey
      * @param string $idempotencyKey
      * @param string $data
      * @param array $parameters
      */
-    public function __construct(string $apiKey, string $idempotencyKey, string $data = "", array $parameters = [])
+    public function __construct(string $apiKey, string $signatureKey, string $idempotencyKey, string $data = "", array $parameters = [])
     {
         if (empty($apiKey)) {
             throw new InvalidArgumentException('You did not provide a api key');
@@ -25,16 +26,22 @@ class SignatureCalculator
             throw new InvalidArgumentException('You did not provide a idempotency key');
         }
 
+        $parsedParameters = [];
+
+        foreach ($parameters as $key => $value) {
+            $parsedParameters[$key] = is_array($value) ? $value : [$value];
+        }
+
         $signatureBody = [
             'headers' => [
                 'Api-Key' => $apiKey,
                 'Idempotency-Key' => $idempotencyKey,
             ],
-            'data' => $data,
-            'parameters' => $parameters,
+            'parameters' => $parsedParameters,
+            'body' => $data,
         ];
 
-        $this->hash = base64_encode(hash_hmac('sha256', json_encode($signatureBody), $apiKey, true));
+        $this->hash = base64_encode(hash_hmac('sha256', json_encode($signatureBody), $signatureKey, true));
     }
 
     /**
