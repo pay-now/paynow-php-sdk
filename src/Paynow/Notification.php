@@ -38,7 +38,7 @@ class Notification
      */
     private function verify(string $signatureKey, string $data, array $headers)
     {
-        $calculatedSignature = (string)new SignatureCalculator($signatureKey, $data);
+        $calculatedSignature = SignatureCalculator::generate($signatureKey, $data);
         if ($calculatedSignature !== $this->getPayloadSignature($headers)) {
             throw new SignatureVerificationException('Signature mismatched for payload');
         }
