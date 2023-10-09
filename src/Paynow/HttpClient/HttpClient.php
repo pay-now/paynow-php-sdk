@@ -151,7 +151,7 @@ class HttpClient implements HttpClientInterface
      */
     private function arrayAsJson(array $data): string
     {
-        return json_encode($data);
+        return json_encode($data, JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -175,7 +175,7 @@ class HttpClient implements HttpClientInterface
                 $this->config->getApiKey(),
                 $this->config->getSignatureKey(),
                 $idempotencyKey,
-                $data ? json_encode($data) : '',
+                $data ? json_encode($data, JSON_UNESCAPED_SLASHES) : '',
                 $parameters
             );
         }

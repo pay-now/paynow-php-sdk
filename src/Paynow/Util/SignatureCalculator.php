@@ -39,11 +39,11 @@ class SignatureCalculator
                 'Api-Key' => $apiKey,
                 'Idempotency-Key' => $idempotencyKey,
             ],
-            'parameters' => $parsedParameters,
+            'parameters' => $parsedParameters ?: new \stdClass(),
             'body' => $data,
         ];
 
-        return base64_encode(hash_hmac('sha256', json_encode($signatureBody), $signatureKey, true));
+        return base64_encode(hash_hmac('sha256', json_encode($signatureBody, JSON_UNESCAPED_SLASHES), $signatureKey, true));
     }
 
     /**
