@@ -64,12 +64,12 @@ class Payment extends Service
             $parameters['amount'] = $amount;
         }
 
-        if (!empty($buyerExternalId)) {
-            $parameters['buyerExternalId'] = $buyerExternalId;
-        }
-
         if (!empty($currency)) {
             $parameters['currency'] = $currency;
+        }
+
+        if (!empty($buyerExternalId)) {
+            $parameters['externalBuyerId'] = $buyerExternalId;
         }
 
         try {
