@@ -146,6 +146,30 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
+     * @param string $url
+     * @param string $idempotencyKey
+     * @param string|null $query
+     * @return ApiResponse
+     * @throws HttpClientException
+     */
+    public function delete(string $url, string $idempotencyKey, ?string $query = null): ApiResponse
+    {
+        $request = $this->messageFactory->createRequest(
+            'DELETE',
+            $query ? $this->url->withPath($url)->withQuery($query) : $this->url->withPath($url)
+        );
+
+        $parameters = [];
+        parse_str(urldecode($query), $parameters);
+
+        foreach ($this->prepareHeaders($idempotencyKey, null, $parameters, strpos($url, Configuration::API_VERSION_V3) !== false) as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $this->send($request);
+    }
+
+    /**
      * @param array $data
      * @return string
      */

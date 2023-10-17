@@ -93,6 +93,37 @@ class Payment extends Service
     }
 
     /**
+     * @param string $externalBuyerId
+     * @param string $token
+     * @param string $idempotencyKey
+     * @throws PaynowException
+     */
+    public function removeSavedInstrument(string $externalBuyerId, string $token, string $idempotencyKey): void
+    {
+        $parameters = [
+            'externalBuyerId' => $externalBuyerId,
+            'token' => $token,
+        ];
+
+        try {
+            $this->getClient()
+                ->getHttpClient()
+                ->delete(
+                    Configuration::API_VERSION_V3 . '/payments/paymentmethods/saved',
+                    $idempotencyKey,
+                    http_build_query($parameters, '', '&')
+                );
+        } catch (HttpClientException $exception) {
+            throw new PaynowException(
+                $exception->getMessage(),
+                $exception->getStatus(),
+                $exception->getBody(),
+                $exception
+            );
+        }
+    }
+
+    /**
      * Retrieve payment status
      *
      * @param string $paymentId
