@@ -42,4 +42,13 @@ class Service
     {
         return $this->client;
     }
+
+    /**
+     * @param string $default
+     * @return string
+     */
+    public function getApiVersion(string $default): string
+    {
+        return $this->getClient()->getConfiguration()->getApiVersion() ?? $default;
+    }
 }

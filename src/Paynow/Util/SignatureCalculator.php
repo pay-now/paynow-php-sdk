@@ -6,23 +6,32 @@ use InvalidArgumentException;
 
 class SignatureCalculator
 {
-    /** @var string */
-    protected $hash;
-
     /**
      * @param string $apiKey
+     * @param string $signatureKey
      * @param string $idempotencyKey
      * @param string $data
      * @param array $parameters
+     * @return string
      */
-    public function __construct(string $apiKey, string $idempotencyKey, string $data = "", array $parameters = [])
+    public static function generateV3(string $apiKey, string $signatureKey, string $idempotencyKey, string $data = '', array $parameters = []): string
     {
         if (empty($apiKey)) {
             throw new InvalidArgumentException('You did not provide a api key');
         }
 
+        if (empty($signatureKey)) {
+            throw new InvalidArgumentException('You did not provide a Signature key');
+        }
+
         if (empty($idempotencyKey)) {
             throw new InvalidArgumentException('You did not provide a idempotency key');
+        }
+
+        $parsedParameters = [];
+
+        foreach ($parameters as $key => $value) {
+            $parsedParameters[$key] = is_array($value) ? $value : [$value];
         }
 
         $signatureBody = [
@@ -30,26 +39,28 @@ class SignatureCalculator
                 'Api-Key' => $apiKey,
                 'Idempotency-Key' => $idempotencyKey,
             ],
-            'data' => $data,
-            'parameters' => $parameters,
+            'parameters' => $parsedParameters ?: new \stdClass(),
+            'body' => $data,
         ];
 
-        $this->hash = base64_encode(hash_hmac('sha256', json_encode($signatureBody), $apiKey, true));
+        return base64_encode(hash_hmac('sha256', json_encode($signatureBody, JSON_UNESCAPED_SLASHES), $signatureKey, true));
     }
 
     /**
+     * @param string $signatureKey
+     * @param string $data
      * @return string
      */
-    public function __toString(): string
+    public static function generate(string $signatureKey, string $data): string
     {
-        return $this->getHash();
-    }
+        if (empty($signatureKey)) {
+            throw new InvalidArgumentException('You did not provide a Signature key');
+        }
 
-    /**
-     * @return string
-     */
-    public function getHash(): string
-    {
-        return $this->hash;
+        if (empty($data)) {
+            throw new InvalidArgumentException('You did not provide any data');
+        }
+
+        return base64_encode(hash_hmac('sha256', $data, $signatureKey, true));
     }
 }

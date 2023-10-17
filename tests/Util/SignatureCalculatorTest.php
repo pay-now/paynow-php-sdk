@@ -11,7 +11,7 @@ class SignatureCalculatorTest extends TestCase
     public function testNotValidSuccessfully()
     {
         // given + when
-        $signatureCalculator = new SignatureCalculator('InvalidSecretKey', json_encode(['key' => 'value']));
+        $signatureCalculator = SignatureCalculator::generate('InvalidSecretKey', json_encode(['key' => 'value']));
 
         // then
         $this->assertNotEquals('hash', $signatureCalculator->getHash());
@@ -20,7 +20,7 @@ class SignatureCalculatorTest extends TestCase
     public function testShouldValidSuccessfully()
     {
         // given + when
-        $signatureCalculator = new SignatureCalculator(
+        $signatureCalculator = SignatureCalculator::generate(
             'a621a1fb-b4d8-48ba-a6a3-2a28ed61f605',
             json_encode([
                 'key1' => 'value1',
@@ -38,7 +38,7 @@ class SignatureCalculatorTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         // when
-        $signatureCalculator = new SignatureCalculator('a621a1fb-b4d8-48ba-a6a3-2a28ed61f605', "");
+        $signatureCalculator = SignatureCalculator::generate('a621a1fb-b4d8-48ba-a6a3-2a28ed61f605', "");
 
         // then
     }
