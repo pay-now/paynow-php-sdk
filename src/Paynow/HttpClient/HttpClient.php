@@ -136,7 +136,9 @@ class HttpClient implements HttpClientInterface
         );
 
         $parameters = [];
-        parse_str(urldecode($query), $parameters);
+        if ($query) {
+            parse_str(urldecode($query), $parameters);
+        }
 
         foreach ($this->prepareHeaders($idempotencyKey, null, $parameters, strpos($url, Configuration::API_VERSION_V3) !== false) as $name => $value) {
             $request = $request->withHeader($name, $value);
@@ -160,7 +162,9 @@ class HttpClient implements HttpClientInterface
         );
 
         $parameters = [];
-        parse_str(urldecode($query), $parameters);
+        if ($query) {
+            parse_str(urldecode($query), $parameters);
+        }
 
         foreach ($this->prepareHeaders($idempotencyKey, null, $parameters, strpos($url, Configuration::API_VERSION_V3) !== false) as $name => $value) {
             $request = $request->withHeader($name, $value);
