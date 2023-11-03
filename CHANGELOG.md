@@ -1,3 +1,6 @@
+## 2.2.2
+- Added applePayEnabled parameter in get payment methods functionality support
+
 ## 2.2.1
 - Removed trailing slash from environment urls
 - Added slash on first position to service urls
