@@ -61,18 +61,21 @@ class Payment extends Service
      *
      * @param string|null $currency
      * @param int|null $amount
+     * @param bool $applePayEnabled
      * @param string|null $idempotencyKey
      * @param string|null $buyerExternalId
      * @return PaymentMethods
      * @throws PaynowException
      */
-    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, ?string $idempotencyKey = null, ?string $buyerExternalId = null): PaymentMethods
+    public function getPaymentMethods(?string $currency = null, ?int $amount = 0, bool $applePayEnabled = true, ?string $idempotencyKey = null, ?string $buyerExternalId = null): PaymentMethods
     {
         $parameters = [];
 
         if ($amount > 0) {
             $parameters['amount'] = $amount;
         }
+
+        $parameters['applePayEnabled'] = $applePayEnabled;
 
         if (!empty($currency)) {
             $parameters['currency'] = $currency;
