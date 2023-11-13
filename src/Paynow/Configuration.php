@@ -8,12 +8,6 @@ class Configuration implements ConfigurationInterface
     public const API_VERSION_V2 = 'v2';
     public const API_VERSION_V3 = 'v3';
 
-    public const AVAILABLE_API_VERSIONS = [
-        self::API_VERSION,
-        self::API_VERSION_V2,
-        self::API_VERSION_V3
-    ];
-
     public const API_PRODUCTION_URL = 'https://api.paynow.pl';
     public const API_SANDBOX_URL = 'https://api.sandbox.paynow.pl';
     public const USER_AGENT = 'paynow-php-sdk';
@@ -54,16 +48,6 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * Get an API version
-     *
-     * @return mixed|null
-     */
-    public function getApiVersion()
-    {
-        return $this->get('api_version');
-    }
-
-    /**
      * Get Signature key
      *
      * @return mixed|null
@@ -101,16 +85,6 @@ class Configuration implements ConfigurationInterface
     public function setApiKey($apiKey)
     {
         $this->set('api_key', $apiKey);
-    }
-
-    /**
-     * Set an API version
-     *
-     * @param $apiVersion
-     */
-    public function setApiVersion($apiVersion)
-    {
-        $this->set('api_version', $apiVersion);
     }
 
     /**

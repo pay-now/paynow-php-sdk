@@ -12,11 +12,10 @@ class ShopConfiguration extends Service
     /**
      * @param string $continueUrl
      * @param string $notificationUrl
-     * @param string|null $idempotencyKey
      * @return ApiResponse
      * @throws PaynowException
      */
-    public function changeUrls(string $continueUrl, string $notificationUrl, ?string $idempotencyKey = null): ApiResponse
+    public function changeUrls(string $continueUrl, string $notificationUrl): ApiResponse
     {
         $data = [
             'continueUrl' => $continueUrl,
@@ -27,8 +26,7 @@ class ShopConfiguration extends Service
                 ->getHttpClient()
                 ->patch(
                     '/' . Configuration::API_VERSION . '/configuration/shop/urls',
-                    $data,
-                    $idempotencyKey ?? md5($notificationUrl . '_' . $continueUrl)
+                    $data
                 );
         } catch (HttpClientException $exception) {
             throw new PaynowException(

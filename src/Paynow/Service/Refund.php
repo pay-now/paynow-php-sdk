@@ -25,7 +25,7 @@ class Refund extends Service
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->post(
-                    '/' . $this->getApiVersion(Configuration::API_VERSION) . '/payments/' . $paymentId . '/refunds',
+                    '/' . Configuration::API_VERSION_V3 . '/payments/' . $paymentId . '/refunds',
                     [
                         'amount' => $amount,
                         'reason' => $reason
@@ -53,12 +53,16 @@ class Refund extends Service
     public function status($refundId, ?string $idempotencyKey = null): Status
     {
         try {
+            if (empty($idempotencyKey)) {
+                $idempotencyKey = md5($refundId);
+            }
+
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(
-                    $this->getApiVersion(Configuration::API_VERSION) . "/refunds/$refundId/status",
-                    $idempotencyKey ?? $refundId,
-                    $refundId
+                    Configuration::API_VERSION_V3 . "/refunds/$refundId/status",
+                    null,
+                    $idempotencyKey
                 )
                 ->decode();
 

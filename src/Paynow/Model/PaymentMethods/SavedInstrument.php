@@ -44,18 +44,22 @@ class SavedInstrument
         return $this->token;
     }
 
-    public function isExpired(): bool
+    public function isExpired(?int $now = null): bool
     {
         if (!$this->expirationDate || strpos($this->expirationDate, '/') === false) {
             return false;
         }
 
-        [$month, $year] = explode('/', $this->expirationDate);
-        $month = intval($month);
-        $year = intval($year);
-        $currentMonth = intval(date('m'));
-        $currentYear = intval(date('y'));
+        if (empty($now)) {
+            $now = time();
+        }
 
-        return $currentYear > $year || ($currentYear === $year && $currentMonth > $month);
+        [$expirationMonth, $expirationYear] = explode('/', $this->expirationDate);
+        $expirationMonth = intval($expirationMonth);
+        $expirationYear = intval($expirationYear);
+        $currentMonth = intval(date('m', $now));
+        $currentYear = intval(date('y', $now));
+
+        return $currentYear > $expirationYear || ($currentYear === $expirationYear && $currentMonth > $expirationMonth);
     }
 }

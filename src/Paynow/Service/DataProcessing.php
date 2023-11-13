@@ -25,12 +25,16 @@ class DataProcessing extends Service
         }
 
         try {
+            if (empty($idempotencyKey)) {
+                $idempotencyKey = md5(($locale ?? '') . '_' . $this->getClient()->getConfiguration()->getApiKey());
+            }
+
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(
-                    $this->getApiVersion(Configuration::API_VERSION) . "/payments/dataprocessing/notices",
-                    $idempotencyKey ?? md5(($locale ?? '') . '_' . $this->getClient()->getConfiguration()->getApiKey()),
-                    http_build_query($parameters, '', '&')
+                    Configuration::API_VERSION_V3 . "/payments/dataprocessing/notices",
+                    http_build_query($parameters, '', '&'),
+                    $idempotencyKey
                 )
                 ->decode();
 

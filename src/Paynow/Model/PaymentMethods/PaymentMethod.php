@@ -12,11 +12,11 @@ class PaymentMethod
     private $status;
     private $authorizationType;
     /**
-     * @var \Paynow\Model\PaymentMethods\SavedInstrument[]
+     * @var SavedInstrument[]
      */
     private $savedInstruments = [];
 
-    public function __construct($id, $type, $name, $description, $image, $status, $authorizationType, $savedInstruments)
+    public function __construct($id, $type, $name, $description, $image, $status, $authorizationType, $savedInstruments = [])
     {
         $this->id = $id;
         $this->type = $type;
@@ -82,7 +82,7 @@ class PaymentMethod
     }
 
     /**
-     * @return \Paynow\Model\PaymentMethods\SavedInstrument[]
+     * @return SavedInstrument[]
      */
     public function getSavedInstruments()
     {
