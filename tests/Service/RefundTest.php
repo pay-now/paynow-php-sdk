@@ -81,4 +81,15 @@ class RefundTest extends TestCase
             );
         }
     }
+
+	public function testShouldThrowExceptionOnMissingPaymentIdDuringRefundStatusCheck()
+	{
+		// given
+		$this->expectException(\InvalidArgumentException::class);
+
+		$refundService = new Refund($this->client);
+
+		// when
+		$refundService->status("");
+	}
 }
