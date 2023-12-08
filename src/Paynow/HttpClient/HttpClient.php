@@ -81,7 +81,12 @@ class HttpClient implements HttpClientInterface
      */
     public function post(string $url, array $data, ?string $idempotencyKey = null): ApiResponse
     {
-        $headers = $this->prepareHeaders($data, [], $idempotencyKey, strpos($url, Configuration::API_VERSION_V3) !== false);
+		$isv3	 = strpos($url, Configuration::API_VERSION_V3) !== false;
+        $headers = $this->prepareHeaders($data, [], $idempotencyKey, $isv3);
+
+		if ($idempotencyKey && !$isv3) {
+			$headers['Idempotency-Key'] = $idempotencyKey;
+		}
 
         $request = $this->messageFactory->createRequest(
             'POST',
