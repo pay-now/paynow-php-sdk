@@ -48,6 +48,11 @@
       "Paynow\\Tests\\": "tests/"
     }
   },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": false
+    }
+  },
   "scripts": {
     "test": "vendor/bin/phpunit",
     "cs-check": "php-cs-fixer fix --no-interaction --dry-run --diff",
