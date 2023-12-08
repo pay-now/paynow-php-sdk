@@ -11,8 +11,12 @@ class PaymentMethod
     private $image;
     private $status;
     private $authorizationType;
+    /**
+     * @var SavedInstrument[]
+     */
+    private $savedInstruments = [];
 
-    public function __construct($id, $type, $name, $description, $image, $status, $authorizationType)
+    public function __construct($id, $type, $name, $description, $image, $status, $authorizationType, $savedInstruments = [])
     {
         $this->id = $id;
         $this->type = $type;
@@ -21,6 +25,17 @@ class PaymentMethod
         $this->image = $image;
         $this->status = $status;
         $this->authorizationType = $authorizationType;
+        if (!empty($savedInstruments)) {
+            foreach ($savedInstruments as $savedInstrument) {
+                $this->savedInstruments[] = new SavedInstrument(
+                    $savedInstrument->name,
+                    $savedInstrument->expirationDate,
+                    $savedInstrument->brand,
+                    $savedInstrument->image,
+                    $savedInstrument->token
+                );
+            }
+        }
     }
 
     public function getId()
@@ -64,5 +79,13 @@ class PaymentMethod
     public function getAuthorizationType()
     {
         return $this->authorizationType;
+    }
+
+    /**
+     * @return SavedInstrument[]
+     */
+    public function getSavedInstruments()
+    {
+        return $this->savedInstruments;
     }
 }

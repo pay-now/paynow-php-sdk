@@ -1,7 +1,7 @@
 {
   "name": "pay-now/paynow-php-sdk",
   "description": "PHP client library for accessing Paynow API",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "keywords": [
     "paynow",
     "mbank",
@@ -46,6 +46,11 @@
     "psr-4": {
       "Paynow\\": "src/Paynow/",
       "Paynow\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": false
     }
   },
   "scripts": {

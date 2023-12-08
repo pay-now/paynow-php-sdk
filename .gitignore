@@ -9,3 +9,7 @@ composer.lock
 
 # ignore PhpStorm .idea folder
 .idea
+
+docker-compose.yml
+
+composer.phar
