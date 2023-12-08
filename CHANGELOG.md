@@ -1,3 +1,7 @@
+## 2.3.0
+- Added v3 support for API
+- Added new features to payments methods
+
 ## 2.2.2
 - Added applePayEnabled parameter in get payment methods functionality support
 
