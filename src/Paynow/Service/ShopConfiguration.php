@@ -12,10 +12,10 @@ class ShopConfiguration extends Service
     /**
      * @param string $continueUrl
      * @param string $notificationUrl
-     * @throws PaynowException
      * @return ApiResponse
+     * @throws PaynowException
      */
-    public function changeUrls(string $continueUrl, string $notificationUrl)
+    public function changeUrls(string $continueUrl, string $notificationUrl): ApiResponse
     {
         $data = [
             'continueUrl' => $continueUrl,
@@ -25,7 +25,7 @@ class ShopConfiguration extends Service
             return $this->getClient()
                 ->getHttpClient()
                 ->patch(
-                    '/' . Configuration::API_VERSION.'/configuration/shop/urls',
+                    '/' . Configuration::API_VERSION . '/configuration/shop/urls',
                     $data
                 );
         } catch (HttpClientException $exception) {

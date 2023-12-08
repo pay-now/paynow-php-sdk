@@ -6,6 +6,8 @@ class Configuration implements ConfigurationInterface
 {
     public const API_VERSION = 'v1';
     public const API_VERSION_V2 = 'v2';
+    public const API_VERSION_V3 = 'v3';
+
     public const API_PRODUCTION_URL = 'https://api.paynow.pl';
     public const API_SANDBOX_URL = 'https://api.sandbox.paynow.pl';
     public const USER_AGENT = 'paynow-php-sdk';
