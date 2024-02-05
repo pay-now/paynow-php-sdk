@@ -9,14 +9,19 @@ class SavedInstrument
     private $brand;
     private $image;
     private $token;
+    /**
+     * @var SavedInstrument\Status
+     */
+    private $status;
 
-    public function __construct($name, $expirationDate, $brand, $image, $token)
+    public function __construct($name, $expirationDate, $brand, $image, $token, $status)
     {
         $this->name = $name;
         $this->expirationDate = $expirationDate;
         $this->brand = $brand;
         $this->image = $image;
         $this->token = $token;
+        $this->status = $status;
     }
 
     public function getName()
@@ -44,22 +49,13 @@ class SavedInstrument
         return $this->token;
     }
 
-    public function isExpired(?int $now = null): bool
+    public function getStatus()
     {
-        if (!$this->expirationDate || strpos($this->expirationDate, '/') === false) {
-            return false;
-        }
+        return $this->status;
+    }
 
-        if (empty($now)) {
-            $now = time();
-        }
-
-        [$expirationMonth, $expirationYear] = explode('/', $this->expirationDate);
-        $expirationMonth = intval($expirationMonth);
-        $expirationYear = intval($expirationYear);
-        $currentMonth = intval(date('m', $now));
-        $currentYear = intval(date('y', $now));
-
-        return $currentYear > $expirationYear || ($currentYear === $expirationYear && $currentMonth > $expirationMonth);
+    public function isExpired(): bool
+    {
+        return in_array($this->status, [SavedInstrument\Status::EXPIRED_CARD, SavedInstrument\Status::EXPIRED_TOKEN]);
     }
 }
