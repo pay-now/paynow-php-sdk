@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
      */
     private function get($key)
     {
-        return isset($this->data[$key]) ? $this->data[$key] : null;
+        return $this->data[$key] ?? null;
     }
 
     /**
