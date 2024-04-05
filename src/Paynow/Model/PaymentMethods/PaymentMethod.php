@@ -32,7 +32,8 @@ class PaymentMethod
                     $savedInstrument->expirationDate,
                     $savedInstrument->brand,
                     $savedInstrument->image,
-                    $savedInstrument->token
+                    $savedInstrument->token,
+                    $savedInstrument->status
                 );
             }
         }
