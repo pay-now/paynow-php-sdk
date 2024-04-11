@@ -10,7 +10,7 @@ class PaymentMethods
     /**
      * @var PaymentMethod[]
      */
-    private $list;
+    private $list = [];
 
     public function __construct($body)
     {
