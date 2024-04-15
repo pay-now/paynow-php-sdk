@@ -3,13 +3,14 @@
 namespace Paynow\HttpClient;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class ApiResponse
 {
     /**
      * Body content
      *
-     * @var string
+     * @var StreamInterface
      */
     public $body;
 

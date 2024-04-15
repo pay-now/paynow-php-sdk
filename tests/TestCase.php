@@ -12,6 +12,9 @@ class TestCase extends BaseTestCase
 
     protected $client;
 
+    /**
+     * @suppress PhanAccessMethodInternal
+     */
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         $this->client = new Client(

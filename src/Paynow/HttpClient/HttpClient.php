@@ -43,7 +43,7 @@ class HttpClient implements HttpClientInterface
         } catch (NotFoundException $exception) {
             $this->client = HttpClientDiscovery::find();
         }
-        $this->url = Psr17FactoryDiscovery::findUrlFactory()->createUri((string)$config->getUrl());
+        $this->url = Psr17FactoryDiscovery::findUriFactory()->createUri((string)$config->getUrl());
     }
 
     /**

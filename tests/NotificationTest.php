@@ -13,6 +13,7 @@ class NotificationTest extends TestCase
      * @param $payload
      * @param $headers
      * @throws SignatureVerificationException
+     * @suppress PhanNoopNew
      */
     public function testVerifyPayloadSuccessfully($payload, $headers)
     {
@@ -40,6 +41,11 @@ class NotificationTest extends TestCase
         ];
     }
 
+    /**
+     * @return void
+     * @throws SignatureVerificationException
+     * @suppress PhanNoopNew
+     */
     public function testShouldThrowExceptionOnIncorrectSignature()
     {
         // given
@@ -53,12 +59,14 @@ class NotificationTest extends TestCase
         // then
     }
 
+    /**
+     * @suppress PhanNoopNew
+     * @return void
+     */
     public function testShouldThrowExceptionOnMissingPayload()
     {
         // given
         $this->expectException(InvalidArgumentException::class);
-        $payload = null;
-        $headers = [];
 
         // when
         new Notification('s3ecret-k3y', null, null);
@@ -66,12 +74,16 @@ class NotificationTest extends TestCase
         // then
     }
 
+    /**
+     * @return void
+     * @throws SignatureVerificationException
+     * @suppress PhanNoopNew
+     */
     public function testShouldThrowExceptionOnMissingPayloadHeaders()
     {
         // given
         $this->expectException(InvalidArgumentException::class);
         $payload = $this->loadData('notification.json', true);
-        $headers = null;
 
         // when
         new Notification('s3ecret-k3y', $payload, null);
