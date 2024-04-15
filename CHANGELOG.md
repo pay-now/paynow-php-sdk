@@ -1,3 +1,8 @@
+## 2.4.0
+- Added PHP 8 support
+- Added payment method list default value
+- Added client external id calculator
+
 ## 2.3.0
 - Added v3 support for API
 - Added new features to payments methods
