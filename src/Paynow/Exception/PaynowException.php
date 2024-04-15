@@ -13,11 +13,11 @@ class PaynowException extends Exception
     /**
      * PaynowException constructor.
      * @param string $message
-     * @param int $code
+     * @param int|null $code
      * @param string|null $body
      * @param Throwable|null $previous
      */
-    public function __construct(string $message, int $code = 0, ?string $body = null, Throwable $previous = null)
+    public function __construct(string $message, ?int $code = 0, ?string $body = null, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
 

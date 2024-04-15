@@ -3,30 +3,29 @@
 namespace Paynow\Tests\Util;
 
 use Paynow\Model\PaymentMethods\SavedInstrument;
+use Paynow\Model\PaymentMethods\SavedInstrument\Status as SavedInstrumentStatus;
 use Paynow\Tests\TestCase;
 
 class SavedInstrumentTest extends TestCase
 {
     /**
-     * @dataProvider datesProvider
+     * @dataProvider dataProvider
      */
-    public function testIsExpired($currentDate, $expirationDate, $isExpired)
+    public function testIsExpired($status, $isExpired)
     {
         // given + when
-        $savedInstrument = new SavedInstrument('test', $expirationDate, 'VISA', 'test', '1234');
+        $savedInstrument = new SavedInstrument('test', strtotime('+1 month'), 'VISA', 'test', '1234', $status);
 
         // then
-        $this->assertEquals($isExpired, $savedInstrument->isExpired($currentDate));
+        $this->assertEquals($isExpired, $savedInstrument->isExpired());
     }
 
-    public function datesProvider(): array
+    public function dataProvider(): array
     {
         return [
-            [time(), date('m/y'), false],
-            [strtotime('+1 month'), date('m/y'), true],
-            [strtotime('1 September 2025'), '09/24', true],
-            [strtotime('1 September 2023'), '09/24', false],
-            [strtotime('1 September 2023'), '10/23', false],
+            [SavedInstrumentStatus::ACTIVE, false],
+            [SavedInstrumentStatus::EXPIRED_CARD, true],
+            [SavedInstrumentStatus::EXPIRED_TOKEN, true],
         ];
     }
 }
