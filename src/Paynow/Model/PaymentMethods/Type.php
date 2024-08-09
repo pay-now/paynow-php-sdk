@@ -9,5 +9,5 @@ class Type
     public const GOOGLE_PAY = 'GOOGLE_PAY';
     public const APPLE_PAY = 'APPLE_PAY';
     public const PBL = 'PBL';
-	public const PAYPO = 'PAYPO';
+    public const PAYPO = 'PAYPO';
 }
