@@ -1,3 +1,6 @@
+## 2.4.1
+- Added new payment method support
+
 ## 2.4.0
 - Added PHP 8 support
 - Added payment method list default value

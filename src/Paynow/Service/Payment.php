@@ -24,7 +24,9 @@ class Payment extends Service
         try {
             $apiVersion = Configuration::API_VERSION;
 
-            if (array_key_exists('paymentMethodToken', $data) ||  array_key_exists('externalId', $data['buyer'] ?? [])) {
+            if (array_key_exists('paymentMethodToken', $data) ||
+                array_key_exists('externalId', $data['buyer'] ?? []) ||
+                array_key_exists('address', $data['buyer'] ?? [])) {
                 $apiVersion = Configuration::API_VERSION_V3;
             }
 
