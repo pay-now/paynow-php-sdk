@@ -23,16 +23,16 @@ class ShopConfiguration extends Service
             'notificationUrl' => $notificationUrl,
         ];
         try {
-			if (empty($idempotencyKey)) {
-				$idempotencyKey = md5($this->getClient()->getConfiguration()->getApiKey());
-			}
+            if (empty($idempotencyKey)) {
+                $idempotencyKey = md5($this->getClient()->getConfiguration()->getApiKey());
+            }
 
             return $this->getClient()
                 ->getHttpClient()
                 ->patch(
                     '/' . Configuration::API_VERSION_V3 . '/configuration/shop/urls',
                     $data,
-					$idempotencyKey
+                    $idempotencyKey
                 );
         } catch (HttpClientException $exception) {
             throw new PaynowException(

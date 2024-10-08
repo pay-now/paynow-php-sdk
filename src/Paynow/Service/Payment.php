@@ -87,7 +87,7 @@ class Payment extends Service
             $decodedApiResponse = $this->getClient()
                 ->getHttpClient()
                 ->get(
-					Configuration::API_VERSION_V3 . '/payments/paymentmethods',
+                    Configuration::API_VERSION_V3 . '/payments/paymentmethods',
                     http_build_query($parameters, '', '&'),
                     $idempotencyKey
                 )
