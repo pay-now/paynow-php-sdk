@@ -1,3 +1,7 @@
+## 2.4.2
+- Set api v3 as default version
+- Replace outdated dependency
+
 ## 2.4.1
 - Added new payment method support
 
