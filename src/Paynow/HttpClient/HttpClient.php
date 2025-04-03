@@ -102,6 +102,26 @@ class HttpClient implements HttpClientInterface
         return $this->send($request);
     }
 
+	/**
+	 * @param string $url
+	 * @param array $data
+	 * @return ApiResponse
+	 * @throws HttpClientException
+	 */
+	public function postWithoutAuth(string $url, array $data): ApiResponse
+	{
+		$request = $this->messageFactory->createRequest(
+			'POST',
+			$this->url->withPath($url)
+		);
+		$request = $request->withHeader('Api-Key', $this->config->getApiKey());
+		$request = $request->withHeader('User-Agent', $this->getUserAgent());
+
+		$request = $request->withBody($this->streamFactory->createStream($this->arrayAsJson($data)));
+
+		return $this->send($request);
+	}
+
     /**
      * @param string $url
      * @param array $data

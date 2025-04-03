@@ -9,6 +9,11 @@ use Paynow\HttpClient\HttpClientException;
 
 class ShopConfiguration extends Service
 {
+	public const STATUS_ENABLED = 'ENABLED';
+	public const STATUS_DISABLED = 'DISABLED';
+	public const STATUS_UNINSTALLED = 'UNINSTALLED';
+	public const STATUS_UPDATED = 'UPDATED';
+
 	/**
 	 * @param string $continueUrl
 	 * @param string $notificationUrl
@@ -43,4 +48,30 @@ class ShopConfiguration extends Service
             );
         }
     }
+
+	/**
+	 * @param string $status
+	 * @return ApiResponse
+	 * @throws PaynowException
+	 */
+	public function status(string $status): ApiResponse
+	{
+		try {
+			return $this->getClient()
+				->getHttpClient()
+				->postWithoutAuth(
+					'/' . Configuration::API_VERSION_V3 . '/configuration/shop/plugin/status',
+					[
+						'status' => $status,
+					]
+				);
+		} catch (HttpClientException $exception) {
+			throw new PaynowException(
+				$exception->getMessage(),
+				$exception->getStatus(),
+				$exception->getBody(),
+				$exception
+			);
+		}
+	}
 }
