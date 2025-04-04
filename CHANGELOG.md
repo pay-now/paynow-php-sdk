@@ -1,3 +1,6 @@
+## 2.4.4
+- Added "Click To Pay" (C2P) payment method 
+
 ## 2.4.3
 - Replace dependency to older
 
