@@ -50,16 +50,12 @@ class ShopConfiguration extends Service
     }
 
 	/**
-	 * @param string $status
+	 * @param array $statuses
 	 * @return ApiResponse
 	 * @throws PaynowException
 	 */
-	public function status(string $status): ApiResponse
+	public function status(array $statuses): ApiResponse
 	{
-		$data = [
-			'status' => $status,
-		];
-
 		try {
 			$idempotencyKey = md5($this->getClient()->getConfiguration()->getApiKey());
 
@@ -67,7 +63,7 @@ class ShopConfiguration extends Service
 				->getHttpClient()
 				->post(
 					'/' . Configuration::API_VERSION_V3 . '/configuration/shop/plugin/status',
-					$data,
+					$statuses,
 					$idempotencyKey
 				);
 		} catch (HttpClientException $exception) {
