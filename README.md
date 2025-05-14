@@ -8,7 +8,7 @@
 Paynow PHP Library provides access to Paynow API from Applications written in PHP language. 
 
 ## Requirements
-- PHP 7.1 or higher
+- PHP 7.2 or higher
 - HTTP client implements `php-http/client-implementation`. For more information see the [packages list](https://packagist.org/providers/php-http/client-implementation).    
 
 ## Installation
