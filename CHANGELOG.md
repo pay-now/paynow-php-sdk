@@ -1,3 +1,7 @@
+## 2.4.4
+- Add status method to shop configuration service
+- Added "Click To Pay" (C2P) payment method
+
 ## 2.4.3
 - Replace dependency to older
 
