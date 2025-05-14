@@ -10,4 +10,5 @@ class Type
     public const APPLE_PAY = 'APPLE_PAY';
     public const PBL = 'PBL';
     public const PAYPO = 'PAYPO';
+    public const CLICK_TO_PAY = 'CLICK_TO_PAY';
 }
