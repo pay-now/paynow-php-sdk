@@ -36,7 +36,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
     "nyholm/psr7": "^1.2",
     "guzzlehttp/psr7": "^1.6",
-    "php-http/guzzle6-adapter": "^2.0"
+    "http/guzzle7-adapter": "^1.1"
   },
   "suggest": {
     "nyholm/psr7": "A super lightweight PSR-7 implementation",
