@@ -1,7 +1,7 @@
 {
   "name": "pay-now/paynow-php-sdk",
   "description": "PHP client library for accessing Paynow API",
-  "version": "2.4.4",
+  "version": "3.0.0",
   "keywords": [
     "paynow",
     "mbank",
@@ -23,9 +23,9 @@
     "php": ">=7.2",
     "psr/http-message": "^1.0 || ^2.0",
     "php-http/client-implementation": "^1.0 || ^2.0",
-    "php-http/message-factory": "^1.0 || ^2.0",
     "php-http/discovery": "^1.12",
-    "php-http/httplug": "^2.2"
+    "php-http/httplug": "^2.2",
+    "psr/http-factory": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.5.36",
